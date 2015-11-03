@@ -1,0 +1,130 @@
+Recursion
+	Recusion is an algorithm technique in which a method calls itself
+	
+	Examples:
+		power function - x^n = {x*x*x...*x_n}
+		n! = {n*(n-1)*(n-2)*..*(2)*(1)}
+		Fibbonacci Sequence - Fib(n) = Fib(n-1) + Fib(n-2)
+	
+	Every correct recursive defenition has two parts:
+		1. One or more base cases, where the answer can be immediately found (Fib(1) = 1, Fib(2) = 2)
+		2. One or more recursive cases, whrere the answer depends on smaller (different) instances of the same problem.
+		
+	public int factorial(int num)
+	{
+		if (num == 0)
+			return 1;
+		return (num * factorial(num-1));
+	}
+	public int factorial(int num)
+	{
+		if (num == 0)
+			return 1;
+		int total=0;
+		while (num > 0)
+		{
+			total = total * num;
+			num--;
+		}
+	}
+	public int fibbonacci(int n)
+	{
+		if (n == 1 || n == 2)
+			return 1;
+		return (fibbonacci(n-1)+fibbonacci(n-2));
+	}
+	
+	public int power(int base, int exp)
+	{
+		if (exp == 0)
+			return 1;
+		if (exp % 2 != 0)
+		{
+			return (base * power(base, exp -1));
+		}
+		else
+		{
+			int newBase = power(base, exp/2);
+			
+			return (newBase * newBase);
+		}
+	}
+	
+	
+	Recursion - contd.
+
+Towers of Hanoi
+
+Iterative Solution
+	On odd moves, move the smallest disk to the tower least recently visited
+	(sequence 1-2-3-1-2-3...)
+	On even moves, do something else (only on legal move)
+	
+Recursive Solution:
+
+	public void hanoi(Tower source, Tower dest, Tower aux, int num)
+	{
+		if (num == 0)
+		{
+			return;
+		}
+		hanoi(source, aux, dest, num -1);
+		dest.add(source.remove());//moves bottom one
+		hanoi(aux, dest, source, num - 1);
+	}
+	Remark:
+		For n disks, this solution requires (2^n)-1
+		
+		"intractible" -> solvable, but not in reasonable time
+		
+Binary Search
+	public boolean binSearch(int [] data, int start, int end, int target)
+	{
+		if (start > end)
+			return false;
+			
+		int middle = (start + end)/2;
+		//int middle = start + (end - start) /2;
+		if (data[middle]
+			return true;
+		
+		if (data[mid] < target)
+		{
+			return binSearch(data, mid+1, end, target);
+		}
+		else 
+		{
+			return binSearch(data, start, mid-1, target);
+		}
+	}
+	
+	This uses tail recursion - the very last call is the return value
+	
+	public boolean binSearch(int [] data, int start, int end, int target)
+	{
+		while (start <= end)
+		{
+			int mid = (start + end)/2;
+			if (if (data[middle]
+			return true;
+		
+			if (data[mid] < target)
+			{
+				start = mid + 1;
+			}
+			else 
+			{
+				end = mid - 1;
+			}
+		}
+		return false;
+	]
+	
+	
+
+	
+	
+	
+	
+	
+	

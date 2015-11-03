@@ -1,0 +1,10 @@
+object/article/body/commodity/gadget/item/matter/something
+method/approach/design/form/mode/plan/program/recipe/rule/style/way
+function/action/behavior/duty/part/role/service/task/work
+member/representative
+comment/discussion/judgment/note/remark
+recipe/method/prescription/program/technique
+name
+type//classification
+
+nomnomd/yeah

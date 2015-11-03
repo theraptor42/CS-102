@@ -1,0 +1,38 @@
+    
+     ----jGRASP exec: java FractionDriver
+    
+    The output of (5 / 6) should be 5 / 6:
+    5 / 6
+    The output of (7 / 49) should be 1 / 7:
+    1 / 7
+    The output of (6 / 0) should be Undefined:
+    Undefined
+    The output of (-5 / 3) should be -5 / 3:
+    -5 / 3
+    The output of (4 / -2) should be -2 / 1:
+    -2 / 1
+    The output of (-6 / -19) should be 6 / 19:
+    6 / 19
+    
+    (1 / 5) + (7 / 8) = 
+    43 / 40
+    (1 / 5) - (7 / 3) = 
+    -32 / 15
+    (1 / 5) * (3 / 2) = 
+    3 / 10
+    (1 / 5) / (5 / 3) = 
+    3 / 25
+    The reciprocal of (24 / 17) is:
+    17 / 24
+    
+    The greatest common divisor between 12 and 496 is: 
+    4
+    
+    The numerator of 1 / 5 is: 
+    1
+    
+    The denominator of 1 / 5 is: 
+    5
+    
+     ----jGRASP: operation complete.
+    

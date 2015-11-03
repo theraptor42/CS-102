@@ -1,0 +1,136 @@
+
+Recursion and Linked Lists
+
+	*lists may be defined recursively as
+		-the empty list - base case
+		or
+		-a datum followed by a list
+	
+
+class Node
+{
+	Object datum;
+	Node next;
+	
+	public Node()
+	{
+		datum = null;
+		next = null;
+	}	
+	public Object getDatum()
+	{
+		return datum;
+	}	
+	public void setDatum(Object datum)
+	{
+		this.datum = datum;
+	}	
+	public Node getNext()
+	{
+		return next;
+	}	
+	public void setNext(Node next)
+	{
+		this.next = next;
+	}
+}
+
+class LinkedList implements ListInterface
+{
+	Node head;
+	public LinkedList()
+	{
+		head = null;
+	}
+	public boolean isEmpty()
+	{
+		return(head == null);
+	}
+	public int size()
+	{
+		return (1 + size(head));
+	}
+	private int size(Node current)
+	{		
+		if (current == null)
+			return 0;
+		return (1 + size(current.getNext()));
+	}
+	public Object get(int index)
+	{
+		if((index < 0))//||(index>=this.size())) checked in private get()
+		{
+			throw new IndexOutOfBoundsException();
+		}
+		return get(index, head)
+	}
+	private Object get(int index, Node current)
+	{
+		if (current == null)
+		{
+			throw new IndexOutOfBoundsException();
+			//only walks down the list once
+		}
+		if (index == 0)
+		{
+			return current.getDatum();
+		}
+		index--;
+		current = current.getNext();
+		return get(index, current);
+	}
+	
+	public void add(int index, Object datum)
+	{
+		if ((index < 0)||(index > size()))
+		{
+			throw new IndexOutOfBoundsException();
+		}
+		head = add(index, datum, head)
+	}
+	private Node add(int index, Object datum, Node current)
+	{
+		if (index  == 0)
+		{
+			Node splice = new Node();
+			splice.setDatum(datum);
+			splice.setNext(current);
+			return splice;
+		}
+		current.setNext(add(index-1, datum, current.getNext()));
+		return current;
+	}
+	
+	public Object remove(int index)
+	{
+		Object ofTheKing = get(index);//does my error checking
+		head = remove(index, head);
+		return ofTheKing;	
+	}
+	private Node remove(int index, Node current)
+	{
+		if (index == 0)
+		{
+			return current.getNext()
+		}
+		current.setNext(remove(index-1,current.getNext()));
+		return current;
+	}
+	public void removeAll()
+	{
+		head = null;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

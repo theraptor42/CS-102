@@ -1,0 +1,107 @@
+Java Generics
+
+class Node<Type>
+{
+	Type datum;
+	Node<Type> next;
+	.
+	.
+	.
+}
+
+Node<String> foo = new Node<String>();
+Node<Entry> bar = new Node<Empty>();
+
+
+Java Collections Framework
+	-A collection is a Java object that groups multiple elements together
+	-A collection framework is a unified architecture for representing 
+		and maintaining collections
+		-one way to get and mess with collections
+	
+	Interfaces
+	Implementations
+	Utilities
+	
+Collection - parent interface
+	Set 
+		- unordered
+		- does not have duplicates
+	List 
+		- ordered
+		- can have duplicates
+	Map	
+		- has sets of keys and values
+	Queue
+		- yeah
+Collection Methods
+	-int size()
+	-boolean empty()
+	-boolean contains ()
+	-*boolean add(object)
+	-*boolean remove(object)
+	-boolean containsAll(Collection other)
+	-*boolean addAll(Collection other)
+	-*boolean removeAll(Collection other)
+	-*boolean retainAll(Collection other)
+	-*void clear()
+	-Object toArray()
+	-T[] toArray(T[] dummy)
+	
+	*optional - means you can create a read only Collection
+	
+	Enhanced for loop (for each loop) --ONLY WORKS WITH (built-in) COLLECTIONS (and implementations)
+		Old Way
+			for(int pos = 0; pos < myList.size(); pos++)
+			{
+				System.out.println(myList.get(pos));
+			}
+		New Way
+			for (Object item:myList)
+			{
+				System.out.println(item);
+			}
+	
+	Iterators
+		Every collection has a method iterator() that returns an Obeject implementing
+		the Iterator interface:
+		
+		public interface Iterator<Type>
+		{
+			boolean hasNext();
+			Type next();
+			void remove();
+		}
+		
+		If you change the base Collection the behavior for an existing Iterator is undefined
+		
+		
+	Set
+		-Does not need more interesting methods because it is basic and unordered (maybe union and intersection)
+	List<Type>
+		Type get(int index);
+		*Type set(int index, Type item) //set returns the item I just overwrote
+		*void add(int index, Type item)
+		*boolean addAll(int index, Collection other) //add everything in other to my list starting at position index
+		int indexOf(Type item) //left to right
+		int lastIndexOf(Type item) //right to left
+		
+		ListIterator
+			listIterator()
+			boolean hasNext();
+			boolean next();
+			boolean hasPrevious();
+			Type previous(); // bi-directional loop
+			int previousIndex();
+			void remove();
+			void set(Type item);
+			void add(Type item);
+		
+		Implementations
+			java.util.ArrayList
+			java.util.LinkedList
+			
+			
+		
+		
+	

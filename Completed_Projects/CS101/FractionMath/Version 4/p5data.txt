@@ -1,0 +1,12 @@
+rec -6/8
+  ReC  4/-8
+  REC   -5/-10    
+ rEc         4/6
+   rec 0/5
+rec 5/0
+4/8 aDd 6/8 suB 3/12 MUL 5/10 div 6/9
+4/8 aDd  6/-8   suB  3/12   MUL  5/10   div    6/9	
+4/8 AdD  6/0   suB  450/900   MUL  14/20   div    16/48
+fooBARqUitagalkglk
+Caspian Peavyhouse
+ 

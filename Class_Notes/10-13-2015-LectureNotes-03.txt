@@ -1,0 +1,160 @@
+
+Linked List
+	A barrel of monkeys
+	Head - the link to the first node, it contains the link to the first item
+	Each item contains some data and the reference to the next item in the list
+	
+	Remark: "Pointers" vs "References"
+		References are limited java pointers because java doen't have pointers
+	
+class Node
+{
+	Object datum;
+	Node next;
+	
+	public Node()
+	{
+		datum = null;
+		next = null;
+	}	
+	public Object getDatum()
+	{
+		return datum;
+	}	
+	public void setDatum(Object datum)
+	{
+		this.datum = datum;
+	}	
+	public Node getNext()
+	{
+		return next;
+	}	
+	public void setNext(Node next)
+	{
+		this.next = next;
+	}
+}
+
+class LinkedList implements ListInterface
+{
+	Node head;
+	public LinkedList()
+	{
+		head = null;
+	}	
+	public boolean isEmpty()
+	{
+		return (head == null);
+	}	
+	public int size()
+	{
+		int count = 0;
+		Node current = head;
+		while (current != null)
+		{
+			count++;
+			current = current.getNext();
+		}
+		return count;
+	}	
+	public Object get(int index)
+	{
+		if ((index < 0) || (index >= size()))
+		{
+			throw new IndexOutOfBoundsException(); 
+		}
+		Node current = head;
+		for (int i = 1; i < index; i++)
+		{
+			current = current.getNext();
+		}
+		
+		return current.getDatum();
+		//nobody out there understands the monkeys
+	}	
+	public void add(int index, Object datum)
+	{
+		if ((index < 0) || (index > size()))
+		{
+			throw new IndexOutOfBoundsException(); 
+		}
+		Node current = head;
+		Node previous = null;
+		int counter = 0;
+		while (counter < index)
+		{
+			previous = current;
+			current = current.getNext();
+			counter++;
+		}
+		Node splice = new Node();
+		splice.setDatum(datum);
+		splice.setNext(current);
+		if(previous == null)
+		{
+			head = splice;
+		}
+		else
+		{
+			previous.setNext(splice);
+		}
+	}
+	
+	public Object remove(int index)
+	{
+		if ((index < 0) || (index >= size()))
+		{
+			throw new IndexOutOfBoundsException(); 
+		}
+		Node current = head;
+		Node previous = null;
+		int counter = 0;
+		while (counter < index)
+		{
+			previous = current;
+			current = current.getNext();
+			counter++;
+		}
+		if(previous == null)
+		{
+			head = current.getNext();
+		}
+		else
+		{
+			previous.setNext(current.getNext());
+		}
+		
+		return current.getDatum();
+	}
+	
+	public void removeAll()
+	{
+		head = null;
+	}
+}
+
+Variations on Linked Lists
+	1. Head and End References
+		-adds an End reference 
+		-useful for adding items to end of list (mainly for queueing)
+		-adds a little complexity into the code
+	2. Head Nodes
+		-removes front end special case
+		-requires all the algorithms to be slightly updated
+	3. Doubly-Linked Lists
+		-adds a reference to the previous node in the list
+	4. Circular List
+		-adds a reference from the end of the list to the head
+	5. Generalized Lists
+		-sorts by adding another set of links
+		-requires that you update links one set at a time
+	6. Multi-Dimensional Lists
+		-Storing a list as data object in a list
+		-makes 3d lists
+
+
+
+
+
+
+

@@ -1,0 +1,32 @@
+SetDriver Version 4
+Written by Caspian Peavyhouse
+CS101-02
+
+Set number 50 has been constructed and is empty
+{}
+There is no set number 10
+{1, 2}
+There is no set to print
+{1, 2}
+Set 50 is not empty
+There is no set number 10
+Set number 25 has been constructed and is empty
+Set 25 is empty
+Set 25 contains 0 elements
+Set 50 contains 2 elements
+There is no set number 10
+Set 50 has been emptied
+{}
+{1, 2, 3, 4, 5}
+{1, 2, 4, 5}
+{1, 2, 4, 5}
+There is no set number 10
+4 is in the set
+7 is not in the set
+There is no set number 10
+{2, 4, 6, 8, 10, 12}
+{4, 5, 6, 7, 8, 9}
+{2, 4, 5, 6, 7, 8, 9, 10, 12}
+{4, 6, 8}
+{2, 10, 12}
+There is no set number 27 to empty

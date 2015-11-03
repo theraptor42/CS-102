@@ -1,0 +1,70 @@
+
+Variations on list
+	1. Stacks
+		-a stack is a list in which all add & remove operations occur at the same end of the list
+		-ex. piles of ... whatever
+		Applications:
+			--Method call records
+			--Stack based calculator
+		Operations
+			push, pop(add remove)
+			peek() - examine top item without changing data structure
+		Implementations
+			1. Linked List with head as the top of the stack
+			2. Array based list with the end as top of the stack
+		Practical Applications
+			1. Parenthesis Checker
+			2. RPN (Reverse Polish Notation)
+				--> 3 + 4 * 5 = 23
+				--> 3 4 5 * + --> 3 (4 5 *) + --> (3 20 +) --> 23
+	2. Queues
+		-a queue is a list where items are added and removed at opposite ends of the list
+		-ex. staning in line (in all its many forms)
+		Implementations
+			1. Linked Lists with an aditional reference to tail
+			2. Array based lists, with the array treated as a circle
+
+Design & Debugging
+	Key idea: Quality starts from the beginning
+	
+	Waterfall Model (Fiction-not ever used)
+		1. Requirements Analysis
+		2. Design
+		3. Coding
+		4. Testing(repeat 2-4)
+		5. Maintenence/Deployment
+		(Repeat)
+		
+	Practically, thses steps are blended/merged
+
+Big Hint for development
+	Comment as you code
+		-commenting helps match design to code
+		-commenting helps you write code
+		-commenting helps you write code at 3 am
+			(or more importantly, at 3 pm the next day)
+		-commenting forces you to understand what you're doing
+		
+Testing Tips
+	Add testing code yoy'll remove later
+		-ex. print statements
+	Consider testing methedologies
+		-top down: 
+			main --> dummy routines
+			Complile to test functionality
+			Replace dummy routines with actual methods
+		-bottom up
+			write entry first, and a throwaway to call and test item
+			then write database and then main
+	Plan test data
+		-Check boundary conditions (beginning, end, empty, full)
+		-"White Box"  testing every line of code
+			if you add a line to catch a special case, add a test for item
+			(ie this line should never be reached code)
+		-"Cat on the keyboard" - try to break it
+		
+		
+		
+		
+		
+		

@@ -1,0 +1,159 @@
+<html>
+<head>
+<title>Database.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); font-style: italic; }
+.s1 { }
+.s2 { color: rgb(0,0,128); font-weight: bold; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Database.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<a name="l1"><span class="ln">1    </span></a><span class="s0">/* 
+<a name="l2"><span class="ln">2    </span></a>    Caspian Peavyhouse - peav2414@kettering.edu 
+<a name="l3"><span class="ln">3    </span></a>    CS-102, Fall 2015 
+<a name="l4"><span class="ln">4    </span></a>    Programming Assignment 1 
+<a name="l5"><span class="ln">5    </span></a>    Database Class: Stores and searches Entry Objects 
+<a name="l6"><span class="ln">6    </span></a>*/</span><span class="s1"> 
+<a name="l7"><span class="ln">7    </span></a></span><span class="s2">import </span><span class="s1">java.util.*; 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s2">public class </span><span class="s1">Database </span><span class="s0">//the thesaurus is the database of entries</span><span class="s1"> 
+<a name="l9"><span class="ln">9    </span></a>{ 
+<a name="l10"><span class="ln">10   </span></a>    </span><span class="s2">private </span><span class="s1">Entry [] database; 
+<a name="l11"><span class="ln">11   </span></a>    </span><span class="s0">//database holds an array of entries</span><span class="s1"> 
+<a name="l12"><span class="ln">12   </span></a> 
+<a name="l13"><span class="ln">13   </span></a> 
+<a name="l14"><span class="ln">14   </span></a>    </span><span class="s0">/* 
+<a name="l15"><span class="ln">15   </span></a>    Method: Database - constructor 
+<a name="l16"><span class="ln">16   </span></a>    Purpose: Scans the input file and creates an Entry object 
+<a name="l17"><span class="ln">17   </span></a>                for each line with data 
+<a name="l18"><span class="ln">18   </span></a>    Parameters: 
+<a name="l19"><span class="ln">19   </span></a>        Scanner inputScanner:    scanner of the file being parsed 
+<a name="l20"><span class="ln">20   </span></a>    Returns: 
+<a name="l21"><span class="ln">21   </span></a>        Database           the object created by parsing the file 
+<a name="l22"><span class="ln">22   </span></a>    */</span><span class="s1"> 
+<a name="l23"><span class="ln">23   </span></a>    </span><span class="s2">public </span><span class="s1">Database(Scanner inputScanner) 
+<a name="l24"><span class="ln">24   </span></a>    </span><span class="s0">//takes a scanner so main can handle file exceptions</span><span class="s1"> 
+<a name="l25"><span class="ln">25   </span></a>    </span><span class="s0">//also so only main has to deal with i/o</span><span class="s1"> 
+<a name="l26"><span class="ln">26   </span></a>    { 
+<a name="l27"><span class="ln">27   </span></a>        database = </span><span class="s2">new </span><span class="s1">Entry [</span><span class="s3">1</span><span class="s1">]; 
+<a name="l28"><span class="ln">28   </span></a>        </span><span class="s0">//gives it size one as an initial value</span><span class="s1"> 
+<a name="l29"><span class="ln">29   </span></a>        </span><span class="s2">int </span><span class="s1">counter = </span><span class="s3">0</span><span class="s1">; 
+<a name="l30"><span class="ln">30   </span></a>        </span><span class="s2">while </span><span class="s1">(inputScanner.hasNextLine()) 
+<a name="l31"><span class="ln">31   </span></a>        { 
+<a name="l32"><span class="ln">32   </span></a>            String nextLine = inputScanner.nextLine(); 
+<a name="l33"><span class="ln">33   </span></a>            </span><span class="s2">if </span><span class="s1">(nextLine.equals(</span><span class="s4">&quot;&quot;</span><span class="s1">)) 
+<a name="l34"><span class="ln">34   </span></a>            {}</span><span class="s0">//skips empty lines</span><span class="s1"> 
+<a name="l35"><span class="ln">35   </span></a>            </span><span class="s2">else</span><span class="s1"> 
+<a name="l36"><span class="ln">36   </span></a>            { 
+<a name="l37"><span class="ln">37   </span></a>                </span><span class="s2">if </span><span class="s1">(counter == database.length) { 
+<a name="l38"><span class="ln">38   </span></a>                    Entry[] bigger = Arrays.asList(database) 
+<a name="l39"><span class="ln">39   </span></a>                            .toArray(</span><span class="s2">new </span><span class="s1">Entry[database.length + </span><span class="s3">1</span><span class="s1">]); 
+<a name="l40"><span class="ln">40   </span></a>                    </span><span class="s0">//increases the size of database by one</span><span class="s1"> 
+<a name="l41"><span class="ln">41   </span></a>                    </span><span class="s0">//so I don't have null elements</span><span class="s1"> 
+<a name="l42"><span class="ln">42   </span></a>                    </span><span class="s0">// which will break my toString()</span><span class="s1"> 
+<a name="l43"><span class="ln">43   </span></a>                    database = bigger; 
+<a name="l44"><span class="ln">44   </span></a>                } 
+<a name="l45"><span class="ln">45   </span></a>                database[counter] = </span><span class="s2">new </span><span class="s1">Entry(nextLine); 
+<a name="l46"><span class="ln">46   </span></a>                </span><span class="s0">//sends the next scanner line to make a new entry</span><span class="s1"> 
+<a name="l47"><span class="ln">47   </span></a>                counter++; 
+<a name="l48"><span class="ln">48   </span></a>            } 
+<a name="l49"><span class="ln">49   </span></a>        } 
+<a name="l50"><span class="ln">50   </span></a>    } 
+<a name="l51"><span class="ln">51   </span></a> 
+<a name="l52"><span class="ln">52   </span></a>    </span><span class="s0">/* 
+<a name="l53"><span class="ln">53   </span></a>    Method: searchForWord - database search 
+<a name="l54"><span class="ln">54   </span></a>    Purpose: Searches database for matching word 
+<a name="l55"><span class="ln">55   </span></a>                and returns the results of the search 
+<a name="l56"><span class="ln">56   </span></a>    Parameters: 
+<a name="l57"><span class="ln">57   </span></a>        String word      the word to be found 
+<a name="l58"><span class="ln">58   </span></a>    Returns: 
+<a name="l59"><span class="ln">59   </span></a>        String        What we found/not found 
+<a name="l60"><span class="ln">60   </span></a>    */</span><span class="s1"> 
+<a name="l61"><span class="ln">61   </span></a>    </span><span class="s2">public </span><span class="s1">String searchForWord(String word) 
+<a name="l62"><span class="ln">62   </span></a>    { 
+<a name="l63"><span class="ln">63   </span></a>        </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s1">; i &lt; database.length; i++) 
+<a name="l64"><span class="ln">64   </span></a>        { 
+<a name="l65"><span class="ln">65   </span></a>            </span><span class="s0">//runs through all the entry objects in the database</span><span class="s1"> 
+<a name="l66"><span class="ln">66   </span></a>            </span><span class="s2">if </span><span class="s1">(database[i].getWord().equalsIgnoreCase(word)) 
+<a name="l67"><span class="ln">67   </span></a>            { 
+<a name="l68"><span class="ln">68   </span></a>                String wordFound = database[i].toString(); 
+<a name="l69"><span class="ln">69   </span></a>                </span><span class="s2">return </span><span class="s1">wordFound; 
+<a name="l70"><span class="ln">70   </span></a>                </span><span class="s0">//if it finds the word, breaks out and returns it</span><span class="s1"> 
+<a name="l71"><span class="ln">71   </span></a>            } 
+<a name="l72"><span class="ln">72   </span></a>        } 
+<a name="l73"><span class="ln">73   </span></a>        </span><span class="s0">//else it sends back a failure message</span><span class="s1"> 
+<a name="l74"><span class="ln">74   </span></a>        String searchFailed = </span><span class="s4">&quot;Sorry, I could not find </span><span class="s2">\&quot;</span><span class="s4">&quot; </span><span class="s1">+ word + </span><span class="s4">&quot;</span><span class="s2">\&quot;</span><span class="s4">&quot;</span><span class="s1">; 
+<a name="l75"><span class="ln">75   </span></a>        </span><span class="s2">return </span><span class="s1">searchFailed; 
+<a name="l76"><span class="ln">76   </span></a>    } 
+<a name="l77"><span class="ln">77   </span></a> 
+<a name="l78"><span class="ln">78   </span></a>    </span><span class="s0">/* 
+<a name="l79"><span class="ln">79   </span></a>    Method: searchForSynonym - database search 
+<a name="l80"><span class="ln">80   </span></a>    Purpose: Searches each entry database for matching 
+<a name="l81"><span class="ln">81   </span></a>                synonym and returns the results of the search 
+<a name="l82"><span class="ln">82   </span></a>    Parameters: 
+<a name="l83"><span class="ln">83   </span></a>        String synonym      the synonym to be found 
+<a name="l84"><span class="ln">84   </span></a>    Returns: 
+<a name="l85"><span class="ln">85   </span></a>        String        What we found/not found 
+<a name="l86"><span class="ln">86   </span></a>    */</span><span class="s1"> 
+<a name="l87"><span class="ln">87   </span></a>    </span><span class="s2">public </span><span class="s1">String searchForSynonym(String synonym) 
+<a name="l88"><span class="ln">88   </span></a>    { 
+<a name="l89"><span class="ln">89   </span></a>        String returnString = </span><span class="s4">&quot;&quot;</span><span class="s1">; 
+<a name="l90"><span class="ln">90   </span></a>        </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s1">; i &lt; database.length; i++) 
+<a name="l91"><span class="ln">91   </span></a>        { 
+<a name="l92"><span class="ln">92   </span></a>            </span><span class="s0">//loops through each entry object to scan list of synonyms</span><span class="s1"> 
+<a name="l93"><span class="ln">93   </span></a>            String [] synonymList = database[i].getSynonymsList(); 
+<a name="l94"><span class="ln">94   </span></a>            </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">j = </span><span class="s3">0</span><span class="s1">; j &lt; synonymList.length; j++) 
+<a name="l95"><span class="ln">95   </span></a>            { 
+<a name="l96"><span class="ln">96   </span></a>                </span><span class="s2">if </span><span class="s1">(synonym.equalsIgnoreCase(synonymList[j])) 
+<a name="l97"><span class="ln">97   </span></a>                { 
+<a name="l98"><span class="ln">98   </span></a>                    </span><span class="s0">//if it finds an entry with that synonym</span><span class="s1"> 
+<a name="l99"><span class="ln">99   </span></a>                    </span><span class="s0">//it adds it to the return string</span><span class="s1"> 
+<a name="l100"><span class="ln">100  </span></a>                    returnString += database[i].toString() + </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">; 
+<a name="l101"><span class="ln">101  </span></a>                } 
+<a name="l102"><span class="ln">102  </span></a>            } 
+<a name="l103"><span class="ln">103  </span></a>        } 
+<a name="l104"><span class="ln">104  </span></a>        </span><span class="s2">if </span><span class="s1">(returnString.equals(</span><span class="s4">&quot;&quot;</span><span class="s1">)) 
+<a name="l105"><span class="ln">105  </span></a>        { 
+<a name="l106"><span class="ln">106  </span></a>            </span><span class="s0">//if no synonyms are found, sends back failure message</span><span class="s1"> 
+<a name="l107"><span class="ln">107  </span></a>            returnString = </span><span class="s4">&quot;Sorry, I could not find any words &quot; </span><span class="s1">+ 
+<a name="l108"><span class="ln">108  </span></a>                    </span><span class="s4">&quot;with a synonym </span><span class="s2">\&quot;</span><span class="s4">&quot; </span><span class="s1">+ synonym + </span><span class="s4">&quot;</span><span class="s2">\&quot;</span><span class="s4">&quot;</span><span class="s1">; 
+<a name="l109"><span class="ln">109  </span></a>        } 
+<a name="l110"><span class="ln">110  </span></a> 
+<a name="l111"><span class="ln">111  </span></a>        </span><span class="s2">return </span><span class="s1">returnString; 
+<a name="l112"><span class="ln">112  </span></a>    } 
+<a name="l113"><span class="ln">113  </span></a> 
+<a name="l114"><span class="ln">114  </span></a>    </span><span class="s0">/* 
+<a name="l115"><span class="ln">115  </span></a>    Method: toString - toString 
+<a name="l116"><span class="ln">116  </span></a>    Purpose: Returns a formatted string containing the useful 
+<a name="l117"><span class="ln">117  </span></a>                information contained by this Database object 
+<a name="l118"><span class="ln">118  </span></a>    Parameters: 
+<a name="l119"><span class="ln">119  </span></a>        none 
+<a name="l120"><span class="ln">120  </span></a>    Returns: 
+<a name="l121"><span class="ln">121  </span></a>        String           Formatted string with word and synonyms 
+<a name="l122"><span class="ln">122  </span></a>                            from eah entry object 
+<a name="l123"><span class="ln">123  </span></a>    */</span><span class="s1"> 
+<a name="l124"><span class="ln">124  </span></a>    </span><span class="s2">public </span><span class="s1">String toString() 
+<a name="l125"><span class="ln">125  </span></a>    { 
+<a name="l126"><span class="ln">126  </span></a>        </span><span class="s0">//uses the entry's toString</span><span class="s1"> 
+<a name="l127"><span class="ln">127  </span></a>        </span><span class="s0">//loops through each entry and adds it toString to the return</span><span class="s1"> 
+<a name="l128"><span class="ln">128  </span></a>        String returnString = </span><span class="s4">&quot;&quot;</span><span class="s1">; 
+<a name="l129"><span class="ln">129  </span></a>        </span><span class="s2">for </span><span class="s1">(</span><span class="s2">int </span><span class="s1">i =</span><span class="s3">0</span><span class="s1">; i &lt; database.length; i++) 
+<a name="l130"><span class="ln">130  </span></a>        { 
+<a name="l131"><span class="ln">131  </span></a>            returnString += database[i].toString()+</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">; 
+<a name="l132"><span class="ln">132  </span></a>        } 
+<a name="l133"><span class="ln">133  </span></a>        </span><span class="s2">return </span><span class="s1">returnString; 
+<a name="l134"><span class="ln">134  </span></a>    } 
+<a name="l135"><span class="ln">135  </span></a>} 
+<a name="l136"><span class="ln">136  </span></a></span></pre>
+</body>
+</html>

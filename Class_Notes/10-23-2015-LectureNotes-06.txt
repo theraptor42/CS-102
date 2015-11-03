@@ -1,0 +1,18 @@
+Included into 10-20-2015-LectureNotes-05.txt
+	-recursively
+
+public Object get();
+public void add();
+public Object Remove();
+public void removeAll();
+
+ArrayList vs. LinkedList
+
+ArrayList
+	-random access
+	-no dynamic memory required
+	-
+LinkedList
+	-boundless
+	-fewer moves on add/remove
+	-no wasted space

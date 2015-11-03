@@ -1,0 +1,73 @@
+Exceptions:
+
+An exception is a java object representing a runtime problem.
+	Examples
+		array access out of bounds
+		divide by zero
+		opening a non-existing file
+	How to deal with it.
+		Handling it	
+			try
+			{
+				code
+			}
+			
+			catch(classNameA varNameA) 
+			{
+				code
+			} 
+			
+			catch(classNameB varNameB) 
+			{
+				code
+			}
+			...
+			//ClassName the type of error to be caught (ie. Exception)
+			//varName references the exception object
+		Throw it
+			java.lang.throwable 
+				> java.lang.Error - generally non recoverable (run out of memory)
+				>java.lang.Exception - more used, two kinds
+					>checked - must be handled ( try,catch or throw) or program will crash
+					>unchecked - can be handled, but not forced
+	
+		***My main() may not be declared to throw exceptions***
+	Why?
+		It separates error handling from "normal" code. (80/20 rule)
+		It separates error returns from normal returns
+		It allows error handling to occcur non-locally
+		
+Abstract data types (ADT)
+	An abstract data type consists of:
+		-a collection of data items
+		-a collection of operations on those items
+		Examples:
+			phone directory
+				search
+				add/delete/modify entries
+				print
+	An ADT implementation consist of:
+		-data structures for the items
+		-algorithms for the operations
+	ADTs in Java
+		Obvious Way:
+			Abstract Classes
+			This breaks in the case of multiple inheritance
+		Right Way:
+			Interfaces
+				An interface is a named collection of abstract methods (just a method without a body)
+					A collection of method headers
+				A class may implement an interface
+					This promises defenitions for the methods in the interface
+				Interface names may be used as variable or parameter type names
+				
+			
+
+
+
+
+
+
+
+
+		

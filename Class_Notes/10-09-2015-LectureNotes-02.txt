@@ -1,0 +1,104 @@
+
+
+Lists 
+	- abstract data types
+	- represents a finite sequence of items
+	
+	public interface ListInterface 
+	{
+		public boolean isEmpty();
+		public int size();
+		public Object(int index);
+		public void add(int index, Object item);
+		public Object remove(int index);	
+		public void removeAll();
+	}
+	
+	public class ArrayList implements ListInterface 
+	{
+		ArrayList()
+		{
+			Object [] data;
+			int last;
+			final int STARTSIZE = 42;
+			public ArrayList() 
+			{
+				data = newObject[STARTSIZE];
+				last = -1;
+			}
+		}
+	
+		public boolean isEmpty()
+		{
+			if (last == -1)
+				return true;
+			else
+				return false;
+			//return (last == -1);
+		}
+		
+		public int size()
+		{
+			return (last + 1);
+		}
+		
+		public Object get(int index)
+		{
+			if ((index < 0) || (index > last)
+			{
+				throw new IndexOutOfBoundsException();
+			}
+			else
+				return data[index];
+		}
+		
+		public void add(int index, Object item)
+		{
+			if ((index < 0) || (index > last + 1)
+			{
+				throw new IndexOutOfBoundsException();
+			}
+			if (last == data.length - 1)
+			{
+				Object[] bigger = new Object[data.length * 2];
+				for (int pos = 0;pos < data.length; pos++)
+				{
+					bigger[pos] = data[pos];
+				}
+			}
+			for (int pos = last; pos >= index; pos--)
+			{
+				data [pos + 1] = data [pos];
+			}
+			data[index] = item;
+			last++;
+		}
+		
+		public Object remove(int index)
+		{
+			if ((index < 0) || (index > last)
+			{
+				throw new IndexOutOfBoundsException();
+			}
+			Object ofTheJedi = data[index];
+			for (int pos = index; pos < last; pos++)
+			{
+				data[pos] = data[pos+1];
+			}
+			//data[last] = null; not needed, not accessible *usually*
+			last--;
+			return ofTheJedi;
+		}
+		
+		public void removeAll()
+		{
+			last=-1;
+			//easiest version
+		}
+	}
+	
+	
+	
+	
+	
+	

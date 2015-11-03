@@ -1,0 +1,18 @@
+Binary to Decimal Conversion
+Caspian Peavyhouse
+CS101-02
+
+10101001 	: The value in decimal is 169
+1011 1101 	: Line 2 is invalid
+'0' 	: Line 3 is invalid
+1010101010110 	: The value in decimal is 5462
+100101010 	: The value in decimal is 298
+45uoieirhwf; 	: Line 6 is invalid
+1011101 	: The value in decimal is 93
+19204 	: Line 8 is invalid
+10101011 	: The value in decimal is 171
+10 	: The value in decimal is 2
+109ir 	: Line 11 is invalid
+1 	: The value in decimal is 1
+0 	: The value in decimal is 0
+101 100 	: Line 14 is invalid
