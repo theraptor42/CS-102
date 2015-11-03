@@ -1,0 +1,305 @@
+<html>
+<head>
+<title>Prog2.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); font-style: italic; }
+.s1 { }
+.s2 { color: rgb(0,0,128); font-weight: bold; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Prog2.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<a name="l1"><span class="ln">1    </span></a><span class="s0">/* 
+<a name="l2"><span class="ln">2    </span></a>    Caspian Peavyhouse - peav2414@kettering.edu 
+<a name="l3"><span class="ln">3    </span></a>    CS-102, Fall 2015 
+<a name="l4"><span class="ln">4    </span></a>    Programming Assignment 2 
+<a name="l5"><span class="ln">5    </span></a>    Prog 1 Class: Contains main, acts as a thesaurus user interface 
+<a name="l6"><span class="ln">6    </span></a>*/</span><span class="s1"> 
+<a name="l7"><span class="ln">7    </span></a></span><span class="s2">import </span><span class="s1">java.util.*; 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s2">import </span><span class="s1">java.io.*; 
+<a name="l9"><span class="ln">9    </span></a> 
+<a name="l10"><span class="ln">10   </span></a></span><span class="s2">public class </span><span class="s1">Prog2 
+<a name="l11"><span class="ln">11   </span></a>{ 
+<a name="l12"><span class="ln">12   </span></a>    </span><span class="s0">/* 
+<a name="l13"><span class="ln">13   </span></a>    Method: main 
+<a name="l14"><span class="ln">14   </span></a>    Purpose: controls the runtime of the program 
+<a name="l15"><span class="ln">15   </span></a>    Parameters: 
+<a name="l16"><span class="ln">16   </span></a>        Database args   String array of input arguments 
+<a name="l17"><span class="ln">17   </span></a>    Returns: 
+<a name="l18"><span class="ln">18   </span></a>        none 
+<a name="l19"><span class="ln">19   </span></a>    */</span><span class="s1"> 
+<a name="l20"><span class="ln">20   </span></a>    </span><span class="s2">public static void </span><span class="s1">main(String [] args) 
+<a name="l21"><span class="ln">21   </span></a>    { 
+<a name="l22"><span class="ln">22   </span></a>        </span><span class="s2">if </span><span class="s1">(args.length != </span><span class="s3">1</span><span class="s1">) 
+<a name="l23"><span class="ln">23   </span></a>        { 
+<a name="l24"><span class="ln">24   </span></a>            </span><span class="s0">//breaks if there isn't exactly one input</span><span class="s1"> 
+<a name="l25"><span class="ln">25   </span></a>            System.out.println(</span><span class="s4">&quot;Sorry, your input seems incorrect&quot;</span><span class="s1">); 
+<a name="l26"><span class="ln">26   </span></a>            System.out.println(</span><span class="s4">&quot;You should have exactly one argument&quot; </span><span class="s1">+ 
+<a name="l27"><span class="ln">27   </span></a>                    </span><span class="s4">&quot; </span><span class="s2">\n</span><span class="s4">Exiting now&quot;</span><span class="s1">); 
+<a name="l28"><span class="ln">28   </span></a>            System.exit(</span><span class="s3">0</span><span class="s1">);</span><span class="s0">//terminates current virtual machine</span><span class="s1"> 
+<a name="l29"><span class="ln">29   </span></a>            </span><span class="s0">//because it can't really do anything without file io yet</span><span class="s1"> 
+<a name="l30"><span class="ln">30   </span></a>        } 
+<a name="l31"><span class="ln">31   </span></a> 
+<a name="l32"><span class="ln">32   </span></a>        </span><span class="s2">try</span><span class="s1"> 
+<a name="l33"><span class="ln">33   </span></a>        { 
+<a name="l34"><span class="ln">34   </span></a>            </span><span class="s0">//the file containing the thesaurus information</span><span class="s1"> 
+<a name="l35"><span class="ln">35   </span></a>            File inputFile = </span><span class="s2">new </span><span class="s1">File(args[</span><span class="s3">0</span><span class="s1">]); 
+<a name="l36"><span class="ln">36   </span></a>            </span><span class="s0">//Scanner of the input file, to be passed to the database</span><span class="s1"> 
+<a name="l37"><span class="ln">37   </span></a>            Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(inputFile); 
+<a name="l38"><span class="ln">38   </span></a>            </span><span class="s0">//thesaurus contains all of the data parsed from the test file</span><span class="s1"> 
+<a name="l39"><span class="ln">39   </span></a>            Database thesaurus = </span><span class="s2">new </span><span class="s1">Database(inputScanner); 
+<a name="l40"><span class="ln">40   </span></a>            </span><span class="s0">//makes my database</span><span class="s1"> 
+<a name="l41"><span class="ln">41   </span></a>            </span><span class="s0">//sends the database a scanner so only main  deals with file io</span><span class="s1"> 
+<a name="l42"><span class="ln">42   </span></a>            mainMenu(thesaurus);</span><span class="s0">//opens the main menu</span><span class="s1"> 
+<a name="l43"><span class="ln">43   </span></a>        } 
+<a name="l44"><span class="ln">44   </span></a>        </span><span class="s2">catch </span><span class="s1">(FileNotFoundException notFoundObject) 
+<a name="l45"><span class="ln">45   </span></a>        { 
+<a name="l46"><span class="ln">46   </span></a>            System.out.println(</span><span class="s4">&quot;Sorry, I could not find that file&quot; </span><span class="s1">+ 
+<a name="l47"><span class="ln">47   </span></a>                    </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Exiting now&quot;</span><span class="s1">); 
+<a name="l48"><span class="ln">48   </span></a>            System.exit(</span><span class="s3">0</span><span class="s1">);</span><span class="s0">//terminates current virtual machine</span><span class="s1"> 
+<a name="l49"><span class="ln">49   </span></a>        } 
+<a name="l50"><span class="ln">50   </span></a>    } 
+<a name="l51"><span class="ln">51   </span></a> 
+<a name="l52"><span class="ln">52   </span></a> 
+<a name="l53"><span class="ln">53   </span></a>    </span><span class="s0">/* 
+<a name="l54"><span class="ln">54   </span></a>    Method: mainMenu - user interface 
+<a name="l55"><span class="ln">55   </span></a>    Purpose: Main menu, interacts with user and directs 
+<a name="l56"><span class="ln">56   </span></a>                to other sub-menus 
+<a name="l57"><span class="ln">57   </span></a>    Parameters: 
+<a name="l58"><span class="ln">58   </span></a>        Database currentThesaurus   the database parsed from the text file 
+<a name="l59"><span class="ln">59   </span></a>    Returns: 
+<a name="l60"><span class="ln">60   </span></a>        none 
+<a name="l61"><span class="ln">61   </span></a>    */</span><span class="s1"> 
+<a name="l62"><span class="ln">62   </span></a>    </span><span class="s2">public static void </span><span class="s1">mainMenu(Database currentThesaurus) 
+<a name="l63"><span class="ln">63   </span></a>    { 
+<a name="l64"><span class="ln">64   </span></a>        </span><span class="s0">//menu command to search for a word</span><span class="s1"> 
+<a name="l65"><span class="ln">65   </span></a>        </span><span class="s2">final int </span><span class="s1">SEARCHFORWORD = </span><span class="s3">1</span><span class="s1">; 
+<a name="l66"><span class="ln">66   </span></a>        </span><span class="s0">//menu command to search for a synonym</span><span class="s1"> 
+<a name="l67"><span class="ln">67   </span></a>        </span><span class="s2">final int </span><span class="s1">SEARCHFORSYNONYM = </span><span class="s3">2</span><span class="s1">; 
+<a name="l68"><span class="ln">68   </span></a>        </span><span class="s0">//menu command to print the database</span><span class="s1"> 
+<a name="l69"><span class="ln">69   </span></a>        </span><span class="s2">final int </span><span class="s1">PRINTDATABASE = </span><span class="s3">3</span><span class="s1">; 
+<a name="l70"><span class="ln">70   </span></a>        </span><span class="s0">//menu command to add a new word</span><span class="s1"> 
+<a name="l71"><span class="ln">71   </span></a>        </span><span class="s2">final int </span><span class="s1">ADDNEWWORD = </span><span class="s3">4</span><span class="s1">; 
+<a name="l72"><span class="ln">72   </span></a>        </span><span class="s0">//menu command to add a new synonym</span><span class="s1"> 
+<a name="l73"><span class="ln">73   </span></a>        </span><span class="s2">final int </span><span class="s1">ADDNEWSYNONYM = </span><span class="s3">5</span><span class="s1">; 
+<a name="l74"><span class="ln">74   </span></a>        </span><span class="s0">//menu command to end the program</span><span class="s1"> 
+<a name="l75"><span class="ln">75   </span></a>        </span><span class="s2">final int </span><span class="s1">EXIT = </span><span class="s3">6</span><span class="s1">; 
+<a name="l76"><span class="ln">76   </span></a> 
+<a name="l77"><span class="ln">77   </span></a>        System.out.println(</span><span class="s4">&quot;Welcome to CS-102 Project One: The Thesaurus&quot;</span><span class="s1">); 
+<a name="l78"><span class="ln">78   </span></a>        System.out.println(</span><span class="s4">&quot;Written by Caspian Peavyhouse</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+<a name="l79"><span class="ln">79   </span></a> 
+<a name="l80"><span class="ln">80   </span></a>        </span><span class="s0">//scanner to take user input</span><span class="s1"> 
+<a name="l81"><span class="ln">81   </span></a>        Scanner input = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+<a name="l82"><span class="ln">82   </span></a> 
+<a name="l83"><span class="ln">83   </span></a>        </span><span class="s0">//controls whether the menu will loop on completion</span><span class="s1"> 
+<a name="l84"><span class="ln">84   </span></a>        </span><span class="s2">boolean </span><span class="s1">loopOn = </span><span class="s2">true</span><span class="s1">; 
+<a name="l85"><span class="ln">85   </span></a>        </span><span class="s2">while</span><span class="s1">(loopOn)</span><span class="s0">//loop controlled by loopOn activation</span><span class="s1"> 
+<a name="l86"><span class="ln">86   </span></a>        </span><span class="s0">//loops menu after failure or success</span><span class="s1"> 
+<a name="l87"><span class="ln">87   </span></a>        { 
+<a name="l88"><span class="ln">88   </span></a>            </span><span class="s2">try</span><span class="s1"> 
+<a name="l89"><span class="ln">89   </span></a>            { 
+<a name="l90"><span class="ln">90   </span></a>                </span><span class="s0">//standard menu</span><span class="s1"> 
+<a name="l91"><span class="ln">91   </span></a>                System.out.println(</span><span class="s4">&quot;Available Commands:&quot;</span><span class="s1">); 
+<a name="l92"><span class="ln">92   </span></a>                System.out.println(</span><span class="s4">&quot;1: Search for a word&quot;</span><span class="s1">); 
+<a name="l93"><span class="ln">93   </span></a>                System.out.println(</span><span class="s4">&quot;2: Search for a synonym&quot;</span><span class="s1">); 
+<a name="l94"><span class="ln">94   </span></a>                System.out.println(</span><span class="s4">&quot;3: Print the database&quot;</span><span class="s1">); 
+<a name="l95"><span class="ln">95   </span></a>                System.out.println(</span><span class="s4">&quot;4: Add a new word to the thesaurus&quot;</span><span class="s1">); 
+<a name="l96"><span class="ln">96   </span></a>                System.out.println(</span><span class="s4">&quot;5: Add a new synonym to a word&quot;</span><span class="s1">); 
+<a name="l97"><span class="ln">97   </span></a>                System.out.println(</span><span class="s4">&quot;6: Exit&quot;</span><span class="s1">); 
+<a name="l98"><span class="ln">98   </span></a>                System.out.print(</span><span class="s4">&quot;Option Number &gt;&gt; &quot;</span><span class="s1">); 
+<a name="l99"><span class="ln">99   </span></a> 
+<a name="l100"><span class="ln">100  </span></a>                </span><span class="s2">int </span><span class="s1">selection = Integer.parseInt(input.nextLine()); 
+<a name="l101"><span class="ln">101  </span></a>                </span><span class="s0">//</span><span class="s1"> 
+<a name="l102"><span class="ln">102  </span></a> 
+<a name="l103"><span class="ln">103  </span></a>                </span><span class="s2">switch </span><span class="s1">(selection) 
+<a name="l104"><span class="ln">104  </span></a>                { 
+<a name="l105"><span class="ln">105  </span></a>                    </span><span class="s2">case </span><span class="s1">SEARCHFORWORD:</span><span class="s0">//Search for a word</span><span class="s1"> 
+<a name="l106"><span class="ln">106  </span></a>                    { 
+<a name="l107"><span class="ln">107  </span></a>                        wordSearchMenu(currentThesaurus); 
+<a name="l108"><span class="ln">108  </span></a>                        </span><span class="s0">//calls the word search menu</span><span class="s1"> 
+<a name="l109"><span class="ln">109  </span></a>                        </span><span class="s2">break</span><span class="s1">; 
+<a name="l110"><span class="ln">110  </span></a>                    } 
+<a name="l111"><span class="ln">111  </span></a>                    </span><span class="s2">case </span><span class="s1">SEARCHFORSYNONYM:</span><span class="s0">//Search for a synonym</span><span class="s1"> 
+<a name="l112"><span class="ln">112  </span></a>                    { 
+<a name="l113"><span class="ln">113  </span></a>                        synonymSearchMenu(currentThesaurus); 
+<a name="l114"><span class="ln">114  </span></a>                        </span><span class="s0">//calls the synonym search menu</span><span class="s1"> 
+<a name="l115"><span class="ln">115  </span></a>                        </span><span class="s2">break</span><span class="s1">; 
+<a name="l116"><span class="ln">116  </span></a>                    } 
+<a name="l117"><span class="ln">117  </span></a>                    </span><span class="s2">case </span><span class="s1">PRINTDATABASE:</span><span class="s0">//Print the database</span><span class="s1"> 
+<a name="l118"><span class="ln">118  </span></a>                    { 
+<a name="l119"><span class="ln">119  </span></a>                        System.out.println(currentThesaurus.toString()); 
+<a name="l120"><span class="ln">120  </span></a>                        </span><span class="s0">//prints the database using databases toString</span><span class="s1"> 
+<a name="l121"><span class="ln">121  </span></a>                        </span><span class="s2">break</span><span class="s1">; 
+<a name="l122"><span class="ln">122  </span></a>                    } 
+<a name="l123"><span class="ln">123  </span></a>                    </span><span class="s2">case </span><span class="s1">ADDNEWWORD:</span><span class="s0">//add a new entry</span><span class="s1"> 
+<a name="l124"><span class="ln">124  </span></a>                    { 
+<a name="l125"><span class="ln">125  </span></a>                        addNewEntry(currentThesaurus); 
+<a name="l126"><span class="ln">126  </span></a>                        </span><span class="s0">//calls the method to add a new entry</span><span class="s1"> 
+<a name="l127"><span class="ln">127  </span></a>                        </span><span class="s2">break</span><span class="s1">; 
+<a name="l128"><span class="ln">128  </span></a>                    } 
+<a name="l129"><span class="ln">129  </span></a>                    </span><span class="s2">case </span><span class="s1">ADDNEWSYNONYM:</span><span class="s0">//add a new synonym to an entry</span><span class="s1"> 
+<a name="l130"><span class="ln">130  </span></a>                    { 
+<a name="l131"><span class="ln">131  </span></a>                        addNewSynonymToEntry(currentThesaurus); 
+<a name="l132"><span class="ln">132  </span></a>                        </span><span class="s0">//calls the method to add a new synonym</span><span class="s1"> 
+<a name="l133"><span class="ln">133  </span></a>                        </span><span class="s2">break</span><span class="s1">; 
+<a name="l134"><span class="ln">134  </span></a>                    } 
+<a name="l135"><span class="ln">135  </span></a>                    </span><span class="s2">case </span><span class="s1">EXIT:</span><span class="s0">//Exit</span><span class="s1"> 
+<a name="l136"><span class="ln">136  </span></a>                    { 
+<a name="l137"><span class="ln">137  </span></a>                        System.out.println(</span><span class="s4">&quot;The program will exit now&quot;</span><span class="s1">); 
+<a name="l138"><span class="ln">138  </span></a>                        System.exit(</span><span class="s3">0</span><span class="s1">); 
+<a name="l139"><span class="ln">139  </span></a>                    } 
+<a name="l140"><span class="ln">140  </span></a>                    </span><span class="s2">default</span><span class="s1">: 
+<a name="l141"><span class="ln">141  </span></a>                    { 
+<a name="l142"><span class="ln">142  </span></a>                        System.out.println(</span><span class="s4">&quot;Please enter a valid number for &quot; </span><span class="s1">+ 
+<a name="l143"><span class="ln">143  </span></a>                                </span><span class="s4">&quot;the choice of your selection</span><span class="s2">\n\n</span><span class="s4">&quot;</span><span class="s1">); 
+<a name="l144"><span class="ln">144  </span></a>                        </span><span class="s0">// will loop though till user gets correct input</span><span class="s1"> 
+<a name="l145"><span class="ln">145  </span></a>                    } 
+<a name="l146"><span class="ln">146  </span></a>                } 
+<a name="l147"><span class="ln">147  </span></a> 
+<a name="l148"><span class="ln">148  </span></a>                </span><span class="s0">//typeCheck = true; //this line sets mode for either</span><span class="s1"> 
+<a name="l149"><span class="ln">149  </span></a>                </span><span class="s0">//one run through or infinite run till user exits or breaks it</span><span class="s1"> 
+<a name="l150"><span class="ln">150  </span></a>            } 
+<a name="l151"><span class="ln">151  </span></a>            </span><span class="s2">catch </span><span class="s1">(NumberFormatException wrongTypeObject) 
+<a name="l152"><span class="ln">152  </span></a>            { 
+<a name="l153"><span class="ln">153  </span></a>                System.out.println(</span><span class="s4">&quot;Please enter a valid number for &quot; </span><span class="s1">+ 
+<a name="l154"><span class="ln">154  </span></a>                        </span><span class="s4">&quot;the choice of your selection</span><span class="s2">\n\n</span><span class="s4">&quot;</span><span class="s1">); 
+<a name="l155"><span class="ln">155  </span></a>                </span><span class="s0">//catches when the user input bad data</span><span class="s1"> 
+<a name="l156"><span class="ln">156  </span></a>            } 
+<a name="l157"><span class="ln">157  </span></a>        } 
+<a name="l158"><span class="ln">158  </span></a>    } 
+<a name="l159"><span class="ln">159  </span></a> 
+<a name="l160"><span class="ln">160  </span></a>    </span><span class="s0">/* 
+<a name="l161"><span class="ln">161  </span></a>    Method: wordSearchMenu - user interface 
+<a name="l162"><span class="ln">162  </span></a>    Purpose: word menu, interacts with user and calls database methods 
+<a name="l163"><span class="ln">163  </span></a>                to search for user input, prints out search results 
+<a name="l164"><span class="ln">164  </span></a>    Parameters: 
+<a name="l165"><span class="ln">165  </span></a>        Database currentThesaurus   the database parsed from the text file 
+<a name="l166"><span class="ln">166  </span></a>    Returns: 
+<a name="l167"><span class="ln">167  </span></a>        none 
+<a name="l168"><span class="ln">168  </span></a>    */</span><span class="s1"> 
+<a name="l169"><span class="ln">169  </span></a>    </span><span class="s2">public static void </span><span class="s1">wordSearchMenu(Database currentThesaurus) 
+<a name="l170"><span class="ln">170  </span></a>    { 
+<a name="l171"><span class="ln">171  </span></a>        </span><span class="s0">//basic menu for simple text input</span><span class="s1"> 
+<a name="l172"><span class="ln">172  </span></a>        </span><span class="s0">//should work for any normal circumstances</span><span class="s1"> 
+<a name="l173"><span class="ln">173  </span></a>        </span><span class="s0">//because it stores user input into a string</span><span class="s1"> 
+<a name="l174"><span class="ln">174  </span></a>        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word to be searched for&quot;</span><span class="s1">); 
+<a name="l175"><span class="ln">175  </span></a>        System.out.print(</span><span class="s4">&quot;&gt;&gt; &quot;</span><span class="s1">); 
+<a name="l176"><span class="ln">176  </span></a>        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+<a name="l177"><span class="ln">177  </span></a>        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+<a name="l178"><span class="ln">178  </span></a>        </span><span class="s0">//the word being searched for</span><span class="s1"> 
+<a name="l179"><span class="ln">179  </span></a>        String userInput = inputScanner.nextLine(); 
+<a name="l180"><span class="ln">180  </span></a> 
+<a name="l181"><span class="ln">181  </span></a>        </span><span class="s0">//the results of the search</span><span class="s1"> 
+<a name="l182"><span class="ln">182  </span></a>        String returnString = currentThesaurus.searchForWord(userInput); 
+<a name="l183"><span class="ln">183  </span></a>        System.out.println(returnString + </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+<a name="l184"><span class="ln">184  </span></a>        </span><span class="s0">//searches the database for a word</span><span class="s1"> 
+<a name="l185"><span class="ln">185  </span></a>    } 
+<a name="l186"><span class="ln">186  </span></a> 
+<a name="l187"><span class="ln">187  </span></a>    </span><span class="s0">/* 
+<a name="l188"><span class="ln">188  </span></a>    Method: synonymSearchMenu - user interface 
+<a name="l189"><span class="ln">189  </span></a>    Purpose: word menu, interacts with user and calls database methods 
+<a name="l190"><span class="ln">190  </span></a>                to search for user input, prints out search results 
+<a name="l191"><span class="ln">191  </span></a>    Parameters: 
+<a name="l192"><span class="ln">192  </span></a>        Database currentThesaurus   the database parsed from the text file 
+<a name="l193"><span class="ln">193  </span></a>    Returns: 
+<a name="l194"><span class="ln">194  </span></a>        none 
+<a name="l195"><span class="ln">195  </span></a>    */</span><span class="s1"> 
+<a name="l196"><span class="ln">196  </span></a>    </span><span class="s2">public static void </span><span class="s1">synonymSearchMenu(Database currentThesaurus) 
+<a name="l197"><span class="ln">197  </span></a>    { 
+<a name="l198"><span class="ln">198  </span></a>        </span><span class="s0">//basic menu for simple text input</span><span class="s1"> 
+<a name="l199"><span class="ln">199  </span></a>        </span><span class="s0">//should work for any normal circumstances</span><span class="s1"> 
+<a name="l200"><span class="ln">200  </span></a>        </span><span class="s0">//because it stores user input into a string</span><span class="s1"> 
+<a name="l201"><span class="ln">201  </span></a>        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the synonym to be searched for&quot;</span><span class="s1">); 
+<a name="l202"><span class="ln">202  </span></a>        System.out.print(</span><span class="s4">&quot;&gt;&gt; &quot;</span><span class="s1">); 
+<a name="l203"><span class="ln">203  </span></a>        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+<a name="l204"><span class="ln">204  </span></a>        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+<a name="l205"><span class="ln">205  </span></a>        </span><span class="s0">//Synonym being searched for</span><span class="s1"> 
+<a name="l206"><span class="ln">206  </span></a>        String userInput = inputScanner.nextLine(); 
+<a name="l207"><span class="ln">207  </span></a> 
+<a name="l208"><span class="ln">208  </span></a>        </span><span class="s0">//the results of the search</span><span class="s1"> 
+<a name="l209"><span class="ln">209  </span></a>        String returnString = currentThesaurus.searchForSynonym(userInput); 
+<a name="l210"><span class="ln">210  </span></a>        System.out.println(returnString + </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+<a name="l211"><span class="ln">211  </span></a>        </span><span class="s0">//searches each entry for a matching synonym</span><span class="s1"> 
+<a name="l212"><span class="ln">212  </span></a>    } 
+<a name="l213"><span class="ln">213  </span></a> 
+<a name="l214"><span class="ln">214  </span></a>    </span><span class="s0">/* 
+<a name="l215"><span class="ln">215  </span></a>    Method: addNewEntry - user interface 
+<a name="l216"><span class="ln">216  </span></a>    Purpose: word menu, interacts with user and calls database methods 
+<a name="l217"><span class="ln">217  </span></a>                to add new entries, prints out results 
+<a name="l218"><span class="ln">218  </span></a>    Parameters: 
+<a name="l219"><span class="ln">219  </span></a>        Database currentThesaurus   the database parsed from the text file 
+<a name="l220"><span class="ln">220  </span></a>    Returns: 
+<a name="l221"><span class="ln">221  </span></a>        none 
+<a name="l222"><span class="ln">222  </span></a>    */</span><span class="s1"> 
+<a name="l223"><span class="ln">223  </span></a>    </span><span class="s2">public static void </span><span class="s1">addNewEntry(Database currentThesaurus) 
+<a name="l224"><span class="ln">224  </span></a>    { 
+<a name="l225"><span class="ln">225  </span></a>        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word you would like to add&quot;</span><span class="s1">); 
+<a name="l226"><span class="ln">226  </span></a>        System.out.print(</span><span class="s4">&quot;&gt;&gt;&quot;</span><span class="s1">); 
+<a name="l227"><span class="ln">227  </span></a>        </span><span class="s0">//Will accept spaces in words</span><span class="s1"> 
+<a name="l228"><span class="ln">228  </span></a>        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+<a name="l229"><span class="ln">229  </span></a>        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+<a name="l230"><span class="ln">230  </span></a>        </span><span class="s0">//the wood the user wants to add</span><span class="s1"> 
+<a name="l231"><span class="ln">231  </span></a>        String newUserWord = inputScanner.nextLine(); 
+<a name="l232"><span class="ln">232  </span></a> 
+<a name="l233"><span class="ln">233  </span></a>        </span><span class="s0">//checks whether the word was added successfully</span><span class="s1"> 
+<a name="l234"><span class="ln">234  </span></a>        </span><span class="s2">boolean </span><span class="s1">successCheck = currentThesaurus.addEntryFromMenu(newUserWord); 
+<a name="l235"><span class="ln">235  </span></a>        </span><span class="s2">if </span><span class="s1">(successCheck == </span><span class="s2">true</span><span class="s1">) 
+<a name="l236"><span class="ln">236  </span></a>        { 
+<a name="l237"><span class="ln">237  </span></a>            System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot; </span><span class="s1">+newUserWord + </span><span class="s4">&quot; has been &quot; </span><span class="s1">+ 
+<a name="l238"><span class="ln">238  </span></a>                                </span><span class="s4">&quot;added to the thesaurus&quot;</span><span class="s1">); 
+<a name="l239"><span class="ln">239  </span></a>            System.out.println(</span><span class="s4">&quot;Would you like to add a synonym for it?&quot;</span><span class="s1">); 
+<a name="l240"><span class="ln">240  </span></a>            System.out.print(</span><span class="s4">&quot;type (yes/no) &gt;&gt;&quot;</span><span class="s1">); 
+<a name="l241"><span class="ln">241  </span></a>            </span><span class="s0">//does the user want to add a synonym</span><span class="s1"> 
+<a name="l242"><span class="ln">242  </span></a>            String userResponse = inputScanner.next(); 
+<a name="l243"><span class="ln">243  </span></a>            </span><span class="s2">if </span><span class="s1">(userResponse.equalsIgnoreCase(</span><span class="s4">&quot;yes&quot;</span><span class="s1">)) 
+<a name="l244"><span class="ln">244  </span></a>            { 
+<a name="l245"><span class="ln">245  </span></a>                </span><span class="s0">//calls the same method that addNewSynonym calls</span><span class="s1"> 
+<a name="l246"><span class="ln">246  </span></a>                currentThesaurus.addSynonymFromMenu(newUserWord); 
+<a name="l247"><span class="ln">247  </span></a>            } 
+<a name="l248"><span class="ln">248  </span></a>        } 
+<a name="l249"><span class="ln">249  </span></a>        </span><span class="s2">else</span><span class="s1"> 
+<a name="l250"><span class="ln">250  </span></a>        { 
+<a name="l251"><span class="ln">251  </span></a>            System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Sorry, that word is already in the thesuarus</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+<a name="l252"><span class="ln">252  </span></a>            </span><span class="s0">//returns to the main menu</span><span class="s1"> 
+<a name="l253"><span class="ln">253  </span></a>        } 
+<a name="l254"><span class="ln">254  </span></a>    } 
+<a name="l255"><span class="ln">255  </span></a> 
+<a name="l256"><span class="ln">256  </span></a>    </span><span class="s0">/* 
+<a name="l257"><span class="ln">257  </span></a>    Method: addNewSynonym - basic user interface 
+<a name="l258"><span class="ln">258  </span></a>    Purpose: word menu, interacts with user and calls database methods 
+<a name="l259"><span class="ln">259  </span></a>                to add new synonyms 
+<a name="l260"><span class="ln">260  </span></a>                real work is done in database 
+<a name="l261"><span class="ln">261  </span></a>    Parameters: 
+<a name="l262"><span class="ln">262  </span></a>        Database currentThesaurus   the database parsed from the text file 
+<a name="l263"><span class="ln">263  </span></a>    Returns: 
+<a name="l264"><span class="ln">264  </span></a>        none 
+<a name="l265"><span class="ln">265  </span></a>    */</span><span class="s1"> 
+<a name="l266"><span class="ln">266  </span></a>    </span><span class="s2">public static void </span><span class="s1">addNewSynonymToEntry(Database currentThesaurus) 
+<a name="l267"><span class="ln">267  </span></a>    { 
+<a name="l268"><span class="ln">268  </span></a>        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word you would like to update&quot;</span><span class="s1">); 
+<a name="l269"><span class="ln">269  </span></a>        System.out.println(</span><span class="s4">&quot;(Do not include spaces)&quot;</span><span class="s1">); 
+<a name="l270"><span class="ln">270  </span></a>        System.out.print(</span><span class="s4">&quot;&gt;&gt;&quot;</span><span class="s1">); 
+<a name="l271"><span class="ln">271  </span></a>        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+<a name="l272"><span class="ln">272  </span></a>        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+<a name="l273"><span class="ln">273  </span></a>        </span><span class="s0">//WHat word does the user want to update?</span><span class="s1"> 
+<a name="l274"><span class="ln">274  </span></a>        String word = inputScanner.nextLine(); 
+<a name="l275"><span class="ln">275  </span></a> 
+<a name="l276"><span class="ln">276  </span></a>        </span><span class="s0">//calls the method where the real work is done</span><span class="s1"> 
+<a name="l277"><span class="ln">277  </span></a>        currentThesaurus.addSynonymFromMenu(word); 
+<a name="l278"><span class="ln">278  </span></a>        </span><span class="s0">//writtern that way so code is usable by addNewEntry</span><span class="s1"> 
+<a name="l279"><span class="ln">279  </span></a>    } 
+<a name="l280"><span class="ln">280  </span></a>} 
+<a name="l281"><span class="ln">281  </span></a> 
+<a name="l282"><span class="ln">282  </span></a></span></pre>
+</body>
+</html>
