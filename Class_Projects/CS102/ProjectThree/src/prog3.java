@@ -71,8 +71,12 @@ public class Prog3
         final int ADDNEWWORD = 4;
         //menu command to add a new synonym
         final int ADDNEWSYNONYM = 5;
+        //menu command to remove an entry
+        final int REMOVEENTRY = 6;
+        //menu command to remove an synonym
+        final int REMOVESYNONYM = 7;
         //menu command to end the program
-        final int EXIT = 6;
+        final int EXIT = 8;
 
         System.out.println("Welcome to CS-102 Project One: The Thesaurus");
         System.out.println("Written by Caspian Peavyhouse\n");

@@ -5,11 +5,11 @@
     * Entry Class -
 */
 import java.util.*;
-public class NewEntry
+public class Entry
 {
     private LinkedList<String> wordList;
 
-    public NewEntry()
+    public Entry()
     {
         wordList = new LinkedList<>();
     }

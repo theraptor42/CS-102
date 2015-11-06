@@ -5,9 +5,9 @@
  * Database Class: Stores and searches Entry Objects
  */
 import java.util.*;
-public class NewDatabase
+public class Database
 {
-    private LinkedList<NewEntry> entryList;
+    private LinkedList<Entry> entryList;
 
     /*
     Method: Database - constructor
@@ -18,7 +18,7 @@ public class NewDatabase
     Returns:
         Database           the object created by parsing the file
     */
-    public NewDatabase(Scanner inputScanner)
+    public Database(Scanner inputScanner)
     //takes a scanner so main can handle file exceptions
     //also so only main has to deal with i/o
     {
@@ -30,7 +30,7 @@ public class NewDatabase
         while (inputScanner.hasNextLine())
         {
             //a new entry object parsed from the line of text
-            NewEntry newEntry = parseInputLine(inputScanner.nextLine());
+            Entry newEntry = parseInputLine(inputScanner.nextLine());
             //checks to see if entry is empty
             if (!(newEntry == null))
             {
@@ -40,7 +40,7 @@ public class NewDatabase
         }
     }
 
-    private NewEntry parseInputLine(String line)
+    private Entry parseInputLine(String line)
     {
         if (line.equals(""))
         {
@@ -49,7 +49,7 @@ public class NewDatabase
         }
 
         //a new empty Entry object
-        NewEntry returnEntry = new NewEntry();
+        Entry returnEntry = new Entry();
         //Scanner to scan the line of text
         Scanner lineScanner = new Scanner(line);
         lineScanner.useDelimiter("/");
@@ -73,8 +73,45 @@ public class NewDatabase
         return returnEntry;
     }
 
-    public boolean addEntryInOrder(NewEntry newEntry)
+    public boolean isEmpty()
     {
+        return (entryList.size() == 0);
+    }
+
+    public boolean addEntryInOrder(Entry newEntry)
+    {
+        if (this.isEmpty())
+        {
+            entryList.add(newEntry);
+            return true;
+        }
+
+        int index = 0;
+        String current;
+        String newWord = newEntry.getWord();
+
+        while(index > entryList.size())
+        {
+            current = entryList.get(index).getWord();
+
+            if (newWord.compareToIgnoreCase(current) < 0)
+            {
+                entryList.add(index, newEntry);
+                return true;
+            }
+            else if (newWord.compareToIgnoreCase(current) == 0)
+            {
+                return false;
+                //word already exists in database
+            }
+
+            index++;
+
+        }
+
+        //if it comes after everything in the database
+        entryList.add(newEntry);
+        return true;
 
     }
 }
