@@ -11,7 +11,7 @@ public class Entry
 
     public Entry()
     {
-        wordList = new LinkedList<>();
+        wordList = new LinkedList<String>();
     }
 
 
@@ -96,6 +96,72 @@ public class Entry
             return null;
         }
         return wordList.getLast();
+    }
+
+    public boolean hasSynonym(String synSearched)
+    {
+        if (wordList.isEmpty() || wordList.size() == 1)
+        {
+            //no synonyms
+            return false;
+        }
+        //current position in list
+        int index = 1;
+        String current;
+
+        while (index < wordList.size())
+        {
+            current = wordList.get(index);
+            if (current.equalsIgnoreCase(synSearched))
+            {
+                return true;
+            }
+            index++;
+        }
+        return false;
+    }
+
+    public int getIndexOfSyn(String synSearched)
+    {
+        if (wordList.isEmpty() || wordList.size() == 1)
+        {
+            //no synonyms
+            return -1;
+        }
+        //current position in list
+        int index = 1;
+        String current;
+
+        while (index < wordList.size())
+        {
+            current = wordList.get(index);
+            if (current.equalsIgnoreCase(synSearched))
+            {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    public boolean removeSynonym(String removeMe)
+    {
+        if (this.hasSynonym(removeMe))
+        {
+            int index = 1;
+            String current;
+            while (index < wordList.size())
+            {
+                current = wordList.get(index);
+                if (current.equalsIgnoreCase(removeMe))
+                {
+                    wordList.remove(index);
+                    return true;
+                }
+                index ++;
+            }
+        }
+        return false;
     }
 
     public String toString()

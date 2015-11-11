@@ -55,6 +55,30 @@ public class Prog3
     Purpose: Main menu, interacts with user and directs
                 to other sub-menus
     Parameters:
+            //the file containing the thesaurus information
+            File inputFile = new File(args[0]);
+            //Scanner of the input file, to be passed to the database
+            Scanner inputScanner = new Scanner(inputFile);
+            //thesaurus contains all of the data parsed from the test file
+            Database thesaurus = new Database(inputScanner);
+            //makes my database
+            //sends the database a scanner so only main  deals with file io
+            mainMenu(thesaurus);//opens the main menu
+        }
+        catch (FileNotFoundException notFoundObject)
+        {
+            System.out.println("Sorry, I could not find that file" +
+                    "\nExiting now");
+            System.exit(0);//terminates current virtual machine
+        }
+    }
+
+
+    /*
+    Method: mainMenu - user interface
+    Purpose: Main menu, interacts with user and directs
+                to other sub-menus
+    Parameters:
         Database currentThesaurus   the database parsed from the text file
     Returns:
         none
@@ -98,7 +122,9 @@ public class Prog3
                 System.out.println("3: Print the database");
                 System.out.println("4: Add a new word to the thesaurus");
                 System.out.println("5: Add a new synonym to a word");
-                System.out.println("6: Exit");
+                System.out.println("6: Remove a word from the thesaurus");
+                System.out.println("7: Remove a synonym from a word");
+                System.out.println("8: Exit");
                 System.out.print("Option Number >> ");
 
                 int selection = Integer.parseInt(input.nextLine());
@@ -134,6 +160,18 @@ public class Prog3
                     {
                         addNewSynonymToEntry(currentThesaurus);
                         //calls the method to add a new synonym
+                        break;
+                    }
+                    case REMOVEENTRY:
+                    {
+                        removeEntry(currentThesaurus);
+                        //calls the method to remove an entry
+                        break;
+                    }
+                    case REMOVESYNONYM://add a new synonym to an entry
+                    {
+                        removeSynonymFromEntry(currentThesaurus);
+                        //calls the method to remove a synonym
                         break;
                     }
                     case EXIT://Exit
@@ -249,10 +287,15 @@ public class Prog3
                 //calls the same method that addNewSynonym calls
                 currentThesaurus.addSynonymFromMenu(newUserWord);
             }
+            else
+            {
+                System.out.println("\nGoing back to the main menu");
+            }
         }
         else
         {
-            System.out.println("\nSorry, that word is already in the thesuarus\n");
+            System.out.println("\nSorry, that word is already in the thesaurus\n");
+            System.out.println("Going back to the main menu");
             //returns to the main menu
         }
     }
@@ -281,4 +324,46 @@ public class Prog3
         currentThesaurus.addSynonymFromMenu(word);
         //written that way so code is usable by addNewEntry
     }
+
+    public static void removeEntry(Database currentThesaurus)
+    {
+        System.out.println("\nPlease type the word you would like to remove");
+        System.out.print(">>");
+        //Will accept spaces in words
+        //Scanner to take user input
+        Scanner inputScanner = new Scanner(System.in);
+        //the wood the user wants to add
+        String newUserWord = inputScanner.nextLine();
+
+        //checks whether the word was added successfully
+        boolean successCheck = currentThesaurus.removeEntryFromMenu(newUserWord);
+        if (successCheck)
+        {
+            System.out.println("\n" +newUserWord + " has been " +
+                    "removed from the thesaurus");
+            System.out.println("\nGoing back to the main menu");
+        }
+        else
+        {
+            System.out.println("Going back to the main menu");
+            //returns to the main menu
+        }
+    }
+
+    public static void removeSynonymFromEntry(Database currentThesaurus)
+    {
+        System.out.println("\nPlease type the word you would like to update");
+        System.out.print(">>");
+        //Scanner to take user input
+        Scanner inputScanner = new Scanner(System.in);
+        //WHat word does the user want to update?
+        String word = inputScanner.nextLine();
+
+        //calls the method where the real work is done
+        currentThesaurus.removeSynonymFromMenu(word);
+        //written that way so code is usable by addNewEntry
+    }
+
 }
+
+

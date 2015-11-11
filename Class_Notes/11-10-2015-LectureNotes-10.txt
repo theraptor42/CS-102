@@ -1,0 +1,162 @@
+Trees
+	-Def. A tree may be defined recursively as:
+		-the empty tree
+		or
+		-a node attached to one or more trees
+	-Parts
+		-root - the head
+		-leaves - lowest level nodes
+		
+	Remark: A node may have many children, but at most one parent
+		-root has no parent
+		
+Binary Trees
+	Def: A binary tree is a tree in which every node has exactly two children
+		-(children can be null so exactly = at most)
+		
+	-two children
+		-left
+		-right
+Binary Search trees
+	Def: A binary search tree is a binary tree in which every node satisfies the following:
+		-values in the node's left subtree are smaller than the value in the node
+		-values in the nodes right subtree are greater than the value in the node
+		
+		
+class TreeNode <Type>
+{
+	Type datum;
+	TreeNode <Type> left;
+	TreeNode <Type> right;
+	getter and setter
+}
+
+class Tree <Type extends Comparable<? super Type>>
+{
+	TreeNode<Type> root;
+	public Tree()
+	{
+			root = null;
+			left = null;
+			right = null;
+	}
+	
+	public boolean search(Type target)
+	{
+		TreeNode current = root;
+		while (current != null)
+		{
+			if (current.getDatum().equals(target))
+			{
+				return true;
+			}
+			if (current.getDatum().compareTo(target) < 0)
+			{
+				current = current.getRight();
+			}
+			else
+			{
+				current = current.getLeft();
+			}
+		}
+		
+		return false; //I fell off the end of the tree
+	}
+	
+	public boolean search(Type target)
+	{
+		return search(target, root);
+	}
+	private boolean search(Type target, TreeNode<Type> current)
+	{
+		if (current == null)
+		{
+			return false;
+		}
+		if (current.getDatum().equals(target))
+		{
+			return true;
+		}
+		if (current.getDatum().compareTo(target) < 0)
+			{
+				return search(target, current.getRight());
+			}
+		else
+		{
+			return search(target, current.getLeft());
+		}
+	}
+	
+	public boolean add(Type newObject)
+	{
+		TreeNode current = root;
+		TreeNode<Type> splice = new TreeNode<Type>;
+		splice.setDatum(NewObject);
+		while (current != null)
+		{
+			if (current.getDatum().equals(newObject))
+			{
+				return false;
+			}
+			if (current.getDatum().compareTo(newObject) < 0)
+			{
+				if (current.getRight() == null)
+				{
+					current.setRight(splice);
+					return true;
+				}
+				current = current.getRight();
+			}
+			else
+			{
+				if (current.getLeft() == null)
+				{
+					current.setLeft(splice);
+					return true;
+				}
+				current = current.getLeft();
+			}
+		}
+		head = splice;
+		return true;
+	}
+	
+	public boolean add(Type target)
+	{
+		root = add(target, root)
+	}
+	private TreeNode<Type> add(Type target, TreeNode<Type> current)
+	{
+		if (current == null)
+		{
+			TreeNode<Type> leaf = new TreeNode<Type>();
+			leaf.setDatum(target);
+			leaf.setLeft(null);
+			leaf.setRight(null);
+			return leaf;
+		}
+		if (current.getDatum().compareTo(target) < 0)
+		{
+			current.setRight(add(target, current.getRight()));
+		}
+		else
+		{
+			current.setLeft(add(target, current.getLeft()));
+		}
+		return current;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
