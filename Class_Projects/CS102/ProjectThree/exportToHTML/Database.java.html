@@ -1,0 +1,615 @@
+<html>
+<head>
+<title>Database.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); font-style: italic; }
+.s1 { }
+.s2 { color: rgb(0,0,128); font-weight: bold; }
+.s3 { color: rgb(0,128,0); font-weight: bold; }
+.s4 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Database.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+ * Caspian Peavyhouse - peav2414@kettering.edu 
+ * CS-102, Fall 2015 
+ * Programming Assignment 3 
+ * Database Class: Stores and searches Entry Objects 
+ */</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">java.util.*; 
+</span><span class="s2">public class </span><span class="s1">Database 
+{ 
+    </span><span class="s2">private </span><span class="s1">LinkedList&lt;Entry&gt; entryList; 
+    </span><span class="s0">//built in generics LinkedList of entry objects</span><span class="s1"> 
+ 
+    </span><span class="s0">/* 
+    Method: Database - constructor 
+    Purpose: Scans the input file and creates an Entry object 
+                for each line with data 
+    Parameters: 
+        Scanner inputScanner:    scanner of the file being parsed 
+    Returns: 
+        Database           the object created by parsing the file 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">Database(Scanner inputScanner) 
+    </span><span class="s0">//takes a scanner so main can handle file exceptions</span><span class="s1"> 
+    </span><span class="s0">//also so only main has to deal with i/o</span><span class="s1"> 
+    { 
+        </span><span class="s2">if</span><span class="s1">(!inputScanner.hasNextLine()) 
+        { 
+            </span><span class="s0">//I don't want a null, so its initialized as an empty list</span><span class="s1"> 
+            entryList = </span><span class="s2">new </span><span class="s1">LinkedList&lt;Entry&gt;(); 
+        } 
+        </span><span class="s2">while </span><span class="s1">(inputScanner.hasNextLine()) 
+        { 
+            </span><span class="s0">//a new entry object parsed from the line of text</span><span class="s1"> 
+            Entry newEntry = parseInputLine(inputScanner.nextLine()); 
+            </span><span class="s0">//checks to see if entry is empty</span><span class="s1"> 
+            </span><span class="s0">//null is specifically only from parseInputLine</span><span class="s1"> 
+            </span><span class="s2">if </span><span class="s1">(!(newEntry == </span><span class="s2">null</span><span class="s1">)) 
+            { 
+                </span><span class="s0">//adds the word to the database in alphabetical order</span><span class="s1"> 
+                addEntryInOrder(newEntry); 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: parseInputLine - text parser 
+    Purpose: parse the line of text and return an entry object 
+    Parameters: 
+        String line   the line of text being parsed 
+    Returns: 
+        Entry - the Object parsed from the text line 
+    */</span><span class="s1"> 
+    </span><span class="s2">private </span><span class="s1">Entry parseInputLine(String line) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(line.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) 
+        { 
+            </span><span class="s0">//returns a null object if the line is empty</span><span class="s1"> 
+            </span><span class="s0">//only null entry source in code</span><span class="s1"> 
+            </span><span class="s2">return null</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s0">//a new empty Entry object</span><span class="s1"> 
+        Entry returnEntry = </span><span class="s2">new </span><span class="s1">Entry(); 
+        </span><span class="s0">//Scanner to scan the line of text</span><span class="s1"> 
+        Scanner lineScanner = </span><span class="s2">new </span><span class="s1">Scanner(line); 
+        lineScanner.useDelimiter(</span><span class="s3">&quot;/&quot;</span><span class="s1">); 
+ 
+        </span><span class="s0">//sets the entry's word</span><span class="s1"> 
+        returnEntry.setWord(lineScanner.next()); 
+ 
+        </span><span class="s2">while </span><span class="s1">(lineScanner.hasNext()) 
+        { 
+            </span><span class="s0">//the next word in the line</span><span class="s1"> 
+            String nextWord = lineScanner.next(); 
+            </span><span class="s0">//end of line and 'a//b/c' blank words</span><span class="s1"> 
+            </span><span class="s2">if </span><span class="s1">(!(nextWord == </span><span class="s2">null</span><span class="s1">) &amp;&amp; !(nextWord.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">))) 
+            { 
+                </span><span class="s0">//adds each word in alphabet order to the</span><span class="s1"> 
+                </span><span class="s0">//synonym linkedList</span><span class="s1"> 
+                returnEntry.addSynonymInOrder(nextWord); 
+                </span><span class="s0">//might not have any synonyms</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s0">//returns the finished entry object</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">returnEntry; 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: isEmpty 
+    Purpose: checks if entryList is null or has length 0 
+    Parameters: 
+        none 
+    Returns: 
+        boolean - is this empty? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">isEmpty() 
+    { 
+        </span><span class="s0">//this method is used to check length</span><span class="s1"> 
+        </span><span class="s0">//replacing head == null so I don't have to maintain a head</span><span class="s1"> 
+        </span><span class="s0">//also error checks for null lists</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">(entryList == </span><span class="s2">null </span><span class="s1">|| (entryList.size() == </span><span class="s4">0</span><span class="s1">)); 
+        </span><span class="s0">//just doing .size() == 0 will raise a null pointer exception on occasion</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: hasWord 
+    Purpose: checks if entryList has an entry with specified string 
+    Parameters: 
+        String wordSearched - the word I'm looking for 
+    Returns: 
+        boolean - is it there? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">hasWord(String wordSearched) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.isEmpty()) 
+        { 
+            </span><span class="s0">//checks for null and empty lists</span><span class="s1"> 
+            </span><span class="s2">return false</span><span class="s1">; 
+        } 
+        </span><span class="s0">//current entry in the linked list</span><span class="s1"> 
+        Entry current; 
+        </span><span class="s0">//position on the linked list</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">index = </span><span class="s4">0</span><span class="s1">; 
+        </span><span class="s2">while </span><span class="s1">(index &lt; entryList.size()) 
+        { 
+            current = entryList.get(index); 
+            </span><span class="s2">if </span><span class="s1">(current.getWord().equalsIgnoreCase(wordSearched)) 
+            { 
+                </span><span class="s0">//the current word matches the searched word</span><span class="s1"> 
+                </span><span class="s2">return true</span><span class="s1">; 
+            } 
+            index++; 
+ 
+        } 
+        </span><span class="s0">//I didn't find it in the list</span><span class="s1"> 
+        </span><span class="s2">return false</span><span class="s1">; 
+ 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: getIndexOfWord 
+    Purpose: finds the location of a specified string 
+    Parameters: 
+        String wordSearched - the word I'm looking for 
+    Returns: 
+        int - where did I find it? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public int </span><span class="s1">getIndexOfWord(String wordSearched) 
+    { 
+        </span><span class="s0">//returns -1 if not found</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.isEmpty()) 
+        { 
+            </span><span class="s0">//this was designed to always only follow a hasWord</span><span class="s1"> 
+            </span><span class="s0">//returns a -1 to throw an index out of bounds if I messed up elsewhere in the code</span><span class="s1"> 
+            </span><span class="s2">return </span><span class="s1">-</span><span class="s4">1</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s0">//finds the entry exactly the same way as hasWord, just returns an index</span><span class="s1"> 
+        </span><span class="s0">//current entry in the linked list</span><span class="s1"> 
+        Entry current; 
+        </span><span class="s0">//position on the linked list</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">index = </span><span class="s4">0</span><span class="s1">; 
+        </span><span class="s2">while </span><span class="s1">(index &lt; entryList.size()) 
+        { 
+            current = entryList.get(index); 
+            </span><span class="s2">if </span><span class="s1">(current.getWord().equalsIgnoreCase(wordSearched)) 
+            { 
+                </span><span class="s0">//the current word matches the searched word</span><span class="s1"> 
+                </span><span class="s2">return </span><span class="s1">index; 
+            } 
+            index++; 
+ 
+        } 
+        </span><span class="s0">//I didn't find it in the list</span><span class="s1"> 
+        </span><span class="s0">//and my code is broken</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">-</span><span class="s4">1</span><span class="s1">; 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: addEntryInOrder - add to linkedList 
+    Purpose: add an entry to the linked list 
+            in alphabetical order 
+    Parameters: 
+        Entry newEntry  the entry being added 
+    Returns: 
+        boolean - did I add it successfully 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">addEntryInOrder(Entry newEntry) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.isEmpty()) 
+        { 
+            </span><span class="s0">//if its empty, initializing as a new list won't hurt</span><span class="s1"> 
+            </span><span class="s0">//catches slippery null lists</span><span class="s1"> 
+            entryList = </span><span class="s2">new </span><span class="s1">LinkedList&lt;Entry&gt;(); 
+            entryList.add(newEntry); 
+            </span><span class="s2">return true</span><span class="s1">; 
+        } 
+ 
+ 
+        </span><span class="s0">//current position in list</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">index = </span><span class="s4">0</span><span class="s1">; 
+        </span><span class="s0">//current word in list</span><span class="s1"> 
+        String current; 
+        </span><span class="s0">//the word from the entry I'm adding, assumes its valid</span><span class="s1"> 
+        String newWord = newEntry.getWord(); 
+ 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.hasWord(newWord)) 
+        { 
+            </span><span class="s0">//the entry already exists</span><span class="s1"> 
+            </span><span class="s2">return false</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s2">while</span><span class="s1">(index &lt; entryList.size()) 
+        { 
+            current = entryList.get(index).getWord(); 
+ 
+            </span><span class="s2">if </span><span class="s1">(newWord.compareToIgnoreCase(current) &lt; </span><span class="s4">0</span><span class="s1">) 
+            { 
+               </span><span class="s0">//the new word goes before the current word</span><span class="s1"> 
+                entryList.add(index, newEntry); 
+                </span><span class="s2">return true</span><span class="s1">; 
+            } 
+            </span><span class="s2">else if </span><span class="s1">(newWord.compareToIgnoreCase(current) == </span><span class="s4">0</span><span class="s1">) 
+            { 
+                </span><span class="s2">return false</span><span class="s1">; 
+                </span><span class="s0">//word already exists in database</span><span class="s1"> 
+            } 
+            </span><span class="s0">//move on to the next one</span><span class="s1"> 
+            index++; 
+ 
+        } 
+ 
+        </span><span class="s0">//if it comes after everything in the database</span><span class="s1"> 
+        entryList.add(newEntry); 
+        </span><span class="s2">return true</span><span class="s1">;</span><span class="s0">//woohoo we did it</span><span class="s1"> 
+ 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: searchForWord - database search 
+    Purpose: Searches database for matching word 
+                and returns the results of the search 
+    Parameters: 
+        String wordSearched      the word to be found 
+    Returns: 
+        String        What we found/not found 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">String searchForWord(String wordSearched) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.isEmpty()) 
+        { 
+            </span><span class="s0">//can't search an empty list</span><span class="s1"> 
+            </span><span class="s2">return </span><span class="s3">&quot;There are no entries to search&quot;</span><span class="s1">; 
+        } 
+        </span><span class="s2">if </span><span class="s1">( wordSearched.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) 
+        { 
+            </span><span class="s0">//can't search for an empty string</span><span class="s1"> 
+            </span><span class="s2">return </span><span class="s1">(</span><span class="s3">&quot;I can't search for nothing&quot;</span><span class="s1">); 
+        } 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.hasWord(wordSearched)) 
+        { 
+            </span><span class="s0">//current position in list</span><span class="s1"> 
+            </span><span class="s2">int </span><span class="s1">index = </span><span class="s4">0</span><span class="s1">; 
+            </span><span class="s0">//current entry in the linked list</span><span class="s1"> 
+            Entry current = entryList.get(index); 
+            </span><span class="s2">while </span><span class="s1">(!current.getWord().equalsIgnoreCase(wordSearched)) 
+            { 
+                </span><span class="s0">//cycle till I get the one I want</span><span class="s1"> 
+                index++; 
+                current = entryList.get(index); 
+            } 
+            </span><span class="s0">//found it</span><span class="s1"> 
+            </span><span class="s2">return </span><span class="s1">current.toString(); 
+        } 
+ 
+        </span><span class="s0">//I couldn't find it</span><span class="s1"> 
+        </span><span class="s2">return </span><span class="s1">(</span><span class="s3">&quot;I can't find: </span><span class="s2">\&quot;</span><span class="s3">&quot; </span><span class="s1">+ wordSearched+ </span><span class="s3">&quot;</span><span class="s2">\&quot;</span><span class="s3">&quot;</span><span class="s1">); 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: searchForSynonym - database search 
+    Purpose: Searches each entry database for matching 
+                synonym and returns the results of the search 
+    Parameters: 
+        String synSearchedFor      the synonym to be found 
+    Returns: 
+        String        What we found/not found 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">String searchForSynonym(String synSearchedFor) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.isEmpty()) 
+        { 
+            </span><span class="s2">return </span><span class="s3">&quot;There are no entries to search&quot;</span><span class="s1">; 
+        } 
+        </span><span class="s0">//the String being returned</span><span class="s1"> 
+        String returnString = </span><span class="s3">&quot;&quot;</span><span class="s1">; 
+        </span><span class="s2">if </span><span class="s1">(synSearchedFor.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) 
+        { 
+            </span><span class="s2">return </span><span class="s1">(</span><span class="s3">&quot;I can't search for nothing&quot;</span><span class="s1">); 
+        } 
+        </span><span class="s0">//the current position in the linked list</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">entryIndex = </span><span class="s4">0</span><span class="s1">; 
+        </span><span class="s0">//the current entry in the linked list</span><span class="s1"> 
+        Entry current; 
+        </span><span class="s2">while </span><span class="s1">(entryIndex &lt; entryList.size()) 
+        { 
+            current = entryList.get(entryIndex); 
+            </span><span class="s2">if </span><span class="s1">(current.hasSynonym(synSearchedFor)) 
+            { 
+                </span><span class="s0">//if I find it, return it's info</span><span class="s1"> 
+                returnString += current.toString(); 
+            } 
+            entryIndex++; 
+        } 
+ 
+        </span><span class="s2">if </span><span class="s1">(returnString.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) 
+        { 
+            </span><span class="s0">//I didn't find it</span><span class="s1"> 
+            returnString = </span><span class="s3">&quot;I could not find: </span><span class="s2">\&quot;</span><span class="s3">&quot; </span><span class="s1">+ synSearchedFor + </span><span class="s3">&quot;</span><span class="s2">\&quot;</span><span class="s3">&quot;</span><span class="s1">; 
+        } 
+        </span><span class="s2">return </span><span class="s1">returnString; 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: addEntryFromMenu - database addition 
+    Purpose: adds a new entry to the database 
+    Parameters: 
+        String newWord      the word to be added 
+    Returns: 
+        boolean        did we add it? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">addEntryFromMenu(String newWord) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.hasWord(newWord)) 
+        { 
+            </span><span class="s2">return false</span><span class="s1">; 
+        } 
+        </span><span class="s2">else</span><span class="s1"> 
+        { 
+            </span><span class="s0">//a new blank entry</span><span class="s1"> 
+            Entry newEntry = </span><span class="s2">new </span><span class="s1">Entry(); 
+            </span><span class="s0">//adds my new word tothe entry</span><span class="s1"> 
+            newEntry.setWord(newWord); 
+            </span><span class="s0">//insert the new entry to the list</span><span class="s1"> 
+            </span><span class="s2">this</span><span class="s1">.addEntryInOrder(newEntry); 
+            </span><span class="s2">return true</span><span class="s1">; 
+        } 
+        </span><span class="s0">//System.out.println(&quot;You broke logic&quot;);</span><span class="s1"> 
+        </span><span class="s0">//#unreachable</span><span class="s1"> 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: addSynonymFromMenu - database addition 
+    Purpose: adds a synonym to an existing entry 
+    Parameters: 
+        String wordToAddTo      the word to update 
+    Returns: 
+        none - the results are printed here 
+    */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">addSynonymFromMenu(String wordToAddTo) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(wordToAddTo.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) 
+        { 
+            </span><span class="s0">//if the word is empty go back to caller</span><span class="s1"> 
+            System.out.println(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Please type a valid word</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+            </span><span class="s2">return</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s0">//checks whether the word is in the database and gets it</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(!</span><span class="s2">this</span><span class="s1">.hasWord(wordToAddTo)) 
+        { 
+            </span><span class="s0">//if the word isn't there, go back to caller</span><span class="s1"> 
+            System.out.println(</span><span class="s3">&quot;Sorry, I could not find that word in the thesaurus</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+            </span><span class="s2">return</span><span class="s1">; 
+        } 
+        Entry entryToModify = entryList.get(getIndexOfWord(wordToAddTo)); 
+ 
+        </span><span class="s0">//controls if the loop is repeated</span><span class="s1"> 
+        </span><span class="s2">boolean </span><span class="s1">repeatCheck = </span><span class="s2">true</span><span class="s1">; 
+        </span><span class="s2">while</span><span class="s1">(repeatCheck) 
+        { 
+            System.out.println(</span><span class="s3">&quot;What synonym would you like &quot; </span><span class="s1">+ 
+                    </span><span class="s3">&quot;to add to the word: &quot; </span><span class="s1">+ wordToAddTo); 
+            System.out.print(</span><span class="s3">&quot;&gt;&gt; &quot;</span><span class="s1">); 
+            </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+            Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+            </span><span class="s0">//the synonym to be added</span><span class="s1"> 
+            </span><span class="s0">//will accept spaces in words</span><span class="s1"> 
+            String userInput = inputScanner.nextLine(); 
+ 
+            </span><span class="s2">if </span><span class="s1">(userInput.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) 
+            { 
+                System.out.println(</span><span class="s3">&quot;Sorry, I can't add nothing</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                </span><span class="s0">//jump down to loop control</span><span class="s1"> 
+            } 
+            </span><span class="s2">else</span><span class="s1"> 
+            { 
+                </span><span class="s0">//checks to see if the entry already has that synonym</span><span class="s1"> 
+ 
+                </span><span class="s2">if </span><span class="s1">(entryToModify.hasSynonym(userInput)) 
+                    System.out.println(wordToAddTo + </span><span class="s3">&quot; already has that synonym</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                </span><span class="s2">else</span><span class="s1"> 
+                { 
+                    </span><span class="s0">//adds the synonym to the entry</span><span class="s1"> 
+                    entryToModify.addSynonymInOrder(userInput); 
+                    System.out.println(userInput + </span><span class="s3">&quot; was added to the entry</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                } 
+            } 
+ 
+            </span><span class="s0">//loop control menu</span><span class="s1"> 
+            System.out.println(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Would you like to add another synonym?&quot;</span><span class="s1">); 
+            System.out.print(</span><span class="s3">&quot;type (yes/no) &gt;&gt;&quot;</span><span class="s1">); 
+            </span><span class="s0">//does the user want to add another entry?</span><span class="s1"> 
+            String userResponse = inputScanner.next(); 
+            </span><span class="s2">if </span><span class="s1">(userResponse.equalsIgnoreCase(</span><span class="s3">&quot;yes&quot;</span><span class="s1">)) 
+            {} 
+            </span><span class="s2">else</span><span class="s1"> 
+            { 
+                System.out.println(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Going back to the main menu</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                repeatCheck = </span><span class="s2">false</span><span class="s1">; 
+            } 
+        } 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: removeEntryFromMenu - database removal 
+    Purpose: interface between menu and actual remove entry method 
+    Parameters: 
+        String removeMe      the word to remove 
+    Returns: 
+        boolean - did I do it? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">removeEntryFromMenu(String removeMe) 
+    { 
+        </span><span class="s0">//removeEntry is farther on down, just before the toString</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(removeEntry(removeMe)) 
+        { 
+            </span><span class="s0">//If I removed it successfully, print out success</span><span class="s1"> 
+            System.out.println(removeMe + </span><span class="s3">&quot; has been removed from the thesaurus&quot;</span><span class="s1">); 
+            </span><span class="s2">return true</span><span class="s1">; 
+        } 
+        </span><span class="s2">else</span><span class="s1"> 
+        { 
+            </span><span class="s0">//removeEntry failed</span><span class="s1"> 
+            System.out.println(</span><span class="s3">&quot;I could not find an entry: &quot; </span><span class="s1">+ removeMe + </span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+            </span><span class="s2">return false</span><span class="s1">; 
+        } 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: removeSynonymFromMenu - database removal 
+    Purpose: removes a synonym from an existing entry 
+    Parameters: 
+        String wordToRemove      the word to remove a synonym from 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">removeSynonymFromMenu(String wordToRemoveFrom) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(wordToRemoveFrom.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) 
+        { 
+            </span><span class="s0">//if the word is empty go back to caller</span><span class="s1"> 
+            System.out.println(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Please type a valid word</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+            </span><span class="s2">return</span><span class="s1">; 
+        } 
+ 
+        </span><span class="s0">//checks whether the word is in the database and gets it</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(!</span><span class="s2">this</span><span class="s1">.hasWord(wordToRemoveFrom)) 
+        { 
+            </span><span class="s0">//if the word isn't there, go back to caller</span><span class="s1"> 
+            System.out.println(</span><span class="s3">&quot;Sorry, I could not find that word in the thesaurus</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+            </span><span class="s2">return</span><span class="s1">; 
+        } 
+        </span><span class="s0">//if the entry exists, get the entry using its index</span><span class="s1"> 
+        Entry removeFromThis = entryList.get(getIndexOfWord(wordToRemoveFrom)); 
+ 
+        </span><span class="s0">//loop control, will loop till user does not say &quot;yes&quot; at end</span><span class="s1"> 
+        </span><span class="s2">boolean </span><span class="s1">repeatCheck = </span><span class="s2">true</span><span class="s1">; 
+        </span><span class="s2">while</span><span class="s1">(repeatCheck) 
+        { 
+            System.out.println(</span><span class="s3">&quot;What synonym would you like &quot; </span><span class="s1">+ 
+                    </span><span class="s3">&quot;to remove from the word: &quot; </span><span class="s1">+ wordToRemoveFrom); 
+            System.out.print(</span><span class="s3">&quot;&gt;&gt; &quot;</span><span class="s1">); 
+            </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+            Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+            </span><span class="s0">//the synonym to be added</span><span class="s1"> 
+            </span><span class="s0">//will accept spaces in words</span><span class="s1"> 
+            String userInput = inputScanner.nextLine(); 
+ 
+            </span><span class="s2">if </span><span class="s1">(userInput.equals(</span><span class="s3">&quot;&quot;</span><span class="s1">)) { 
+                System.out.println(</span><span class="s3">&quot;Sorry, I can't remove nothing</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                </span><span class="s0">//jump down to loop control</span><span class="s1"> 
+            } 
+            </span><span class="s2">else</span><span class="s1"> 
+            { 
+ 
+                </span><span class="s2">if </span><span class="s1">(!removeFromThis.hasSynonym(userInput)) 
+                { 
+                    </span><span class="s0">//if the word does not have the synonym skip down to loop control</span><span class="s1"> 
+                    System.out.println(wordToRemoveFrom + </span><span class="s3">&quot;does not have that synonym</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                } 
+                </span><span class="s2">else</span><span class="s1"> 
+                { 
+                    </span><span class="s0">//removes the synonym</span><span class="s1"> 
+                    removeFromThis.removeSynonym(userInput); 
+                    System.out.println(userInput + </span><span class="s3">&quot; was removed from the synonyms of &quot; </span><span class="s1">+ wordToRemoveFrom + </span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                } 
+            } 
+ 
+            </span><span class="s0">//loop control menu</span><span class="s1"> 
+            System.out.println(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Would you like to remove another synonym?&quot;</span><span class="s1">); 
+            System.out.print(</span><span class="s3">&quot;type (yes/no) &gt;&gt;&quot;</span><span class="s1">); 
+            </span><span class="s0">//does the user want to add another entry?</span><span class="s1"> 
+            String userResponse = inputScanner.next(); 
+            </span><span class="s2">if </span><span class="s1">(userResponse.equalsIgnoreCase(</span><span class="s3">&quot;yes&quot;</span><span class="s1">)) 
+            {} 
+            </span><span class="s2">else</span><span class="s1"> 
+            { 
+                System.out.println(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Going back to the main menu</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">); 
+                repeatCheck = </span><span class="s2">false</span><span class="s1">; 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: removeEntry - database removal 
+    Purpose: removes an entry from the database 
+    Parameters: 
+        String removeMe      the word to remove 
+    Returns: 
+        boolean - did I remove it? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">removeEntry(String removeMe) 
+    { 
+        </span><span class="s0">//if the word is in the database</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.hasWord(removeMe)) 
+        { 
+            </span><span class="s0">//current position int the linked list</span><span class="s1"> 
+            </span><span class="s2">int </span><span class="s1">index = </span><span class="s4">0</span><span class="s1">; 
+            </span><span class="s0">//current entry in the linked list</span><span class="s1"> 
+            Entry current; 
+ 
+            </span><span class="s2">while </span><span class="s1">(index &lt; entryList.size()) 
+            { 
+                current = entryList.get(index); 
+                </span><span class="s2">if </span><span class="s1">(current.getWord().equalsIgnoreCase(removeMe)) 
+                { 
+                    </span><span class="s0">//when I find it, remove it</span><span class="s1"> 
+                    entryList.remove(index); 
+                    </span><span class="s2">return true</span><span class="s1">; 
+                } 
+                index++; 
+            } 
+        } 
+        </span><span class="s2">return false</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: toString 
+    Purpose: sends the database to a string 
+    Parameters: 
+        none 
+    Returns: 
+        String - the relevant data 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">String toString() 
+    { 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.isEmpty()) 
+        { 
+            </span><span class="s0">//the thesaurus is empty</span><span class="s1"> 
+            </span><span class="s2">return </span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">There are no entries in the thesaurus</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">; 
+        } 
+        </span><span class="s0">//the accumulating string being returned</span><span class="s1"> 
+        String returnString = </span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">; 
+        </span><span class="s0">//current position in the linkedList</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">index = </span><span class="s4">0</span><span class="s1">; 
+        </span><span class="s0">//current entry in the linkedList</span><span class="s1"> 
+        Entry current; 
+        </span><span class="s2">while </span><span class="s1">(index &lt; entryList.size()) 
+        { 
+            </span><span class="s0">//for each entry add its toString</span><span class="s1"> 
+            current = entryList.get(index); 
+            returnString += current.toString() + </span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">; 
+            index++; 
+        } 
+ 
+        </span><span class="s2">return </span><span class="s1">returnString; 
+    } 
+} 
+</span></pre>
+</body>
+</html>

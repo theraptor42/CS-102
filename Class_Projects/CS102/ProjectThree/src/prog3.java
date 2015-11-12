@@ -13,7 +13,7 @@ public class Prog3
     Method: main
     Purpose: controls the runtime of the program
     Parameters:
-        Database args   String array of input arguments
+        String [] args   String array of input arguments
     Returns:
         none
     */
@@ -49,29 +49,6 @@ public class Prog3
         }
     }
 
-
-    /*
-    Method: mainMenu - user interface
-    Purpose: Main menu, interacts with user and directs
-                to other sub-menus
-    Parameters:
-            //the file containing the thesaurus information
-            File inputFile = new File(args[0]);
-            //Scanner of the input file, to be passed to the database
-            Scanner inputScanner = new Scanner(inputFile);
-            //thesaurus contains all of the data parsed from the test file
-            Database thesaurus = new Database(inputScanner);
-            //makes my database
-            //sends the database a scanner so only main  deals with file io
-            mainMenu(thesaurus);//opens the main menu
-        }
-        catch (FileNotFoundException notFoundObject)
-        {
-            System.out.println("Sorry, I could not find that file" +
-                    "\nExiting now");
-            System.exit(0);//terminates current virtual machine
-        }
-    }
 
 
     /*
@@ -212,7 +189,6 @@ public class Prog3
     {
         //basic menu for simple text input
         //should work for any normal circumstances
-        //because it stores user input into a string
         System.out.println("\nPlease type the word to be searched for");
         System.out.print(">> ");
         //Scanner to take user input
@@ -220,10 +196,12 @@ public class Prog3
         //the word being searched for
         String userInput = inputScanner.nextLine();
 
-        //the results of the search
-        String returnString = currentThesaurus.searchForWord(userInput);
-        System.out.println(returnString + "\n");
         //searches the database for a word
+
+        String returnString = currentThesaurus.searchForWord(userInput);
+        // the results of the search
+        System.out.println(returnString + "\n");
+
     }
 
     /*
@@ -247,10 +225,10 @@ public class Prog3
         //Synonym being searched for
         String userInput = inputScanner.nextLine();
 
-        //the results of the search
-        String returnString = currentThesaurus.searchForSynonym(userInput);
-        System.out.println(returnString + "\n");
         //searches each entry for a matching synonym
+        String returnString = currentThesaurus.searchForSynonym(userInput);
+        //the results of the search
+        System.out.println(returnString + "\n");
     }
 
     /*
@@ -313,11 +291,10 @@ public class Prog3
     public static void addNewSynonymToEntry(Database currentThesaurus)
     {
         System.out.println("\nPlease type the word you would like to update");
-        System.out.println("(Do not include spaces)");
         System.out.print(">>");
         //Scanner to take user input
         Scanner inputScanner = new Scanner(System.in);
-        //WHat word does the user want to update?
+        //What word does the user want to update?
         String word = inputScanner.nextLine();
 
         //calls the method where the real work is done
@@ -325,6 +302,17 @@ public class Prog3
         //written that way so code is usable by addNewEntry
     }
 
+
+    /*
+    Method: removeEntry  - basic user interface
+    Purpose: word menu, interacts with user and calls database methods
+                to remove entries
+                real work is done in database
+    Parameters:
+        Database currentThesaurus   the database parsed from the text file
+    Returns:
+        none
+    */
     public static void removeEntry(Database currentThesaurus)
     {
         System.out.println("\nPlease type the word you would like to remove");
@@ -350,6 +338,16 @@ public class Prog3
         }
     }
 
+    /*
+    Method: removeSynonymFromEntry  - basic user interface
+    Purpose: word menu, interacts with user and calls database methods
+                to remove synonyms
+                real work is done in database
+    Parameters:
+        Database currentThesaurus   the database parsed from the text file
+    Returns:
+        none
+    */
     public static void removeSynonymFromEntry(Database currentThesaurus)
     {
         System.out.println("\nPlease type the word you would like to update");
@@ -361,7 +359,6 @@ public class Prog3
 
         //calls the method where the real work is done
         currentThesaurus.removeSynonymFromMenu(word);
-        //written that way so code is usable by addNewEntry
     }
 
 }

@@ -1,0 +1,390 @@
+<html>
+<head>
+<title>Prog3.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); font-style: italic; }
+.s1 { }
+.s2 { color: rgb(0,0,128); font-weight: bold; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Prog3.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+    Caspian Peavyhouse - peav2414@kettering.edu 
+    CS-102, Fall 2015 
+    Programming Assignment 3 
+    Prog 3 Class: Contains main, acts as a thesaurus user interface 
+*/</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">java.util.*; 
+</span><span class="s2">import </span><span class="s1">java.io.*; 
+ 
+</span><span class="s2">public class </span><span class="s1">Prog3 
+{ 
+    </span><span class="s0">/* 
+    Method: main 
+    Purpose: controls the runtime of the program 
+    Parameters: 
+        String [] args   String array of input arguments 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">main(String [] args) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(args.length != </span><span class="s3">1</span><span class="s1">) 
+        { 
+            </span><span class="s0">//breaks if there isn't exactly one input</span><span class="s1"> 
+            System.out.println(</span><span class="s4">&quot;Sorry, your input seems incorrect&quot;</span><span class="s1">); 
+            System.out.println(</span><span class="s4">&quot;You should have exactly one argument&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot; </span><span class="s2">\n</span><span class="s4">Exiting now&quot;</span><span class="s1">); 
+            System.exit(</span><span class="s3">0</span><span class="s1">);</span><span class="s0">//terminates current virtual machine</span><span class="s1"> 
+            </span><span class="s0">//because it can't really do anything without file io yet</span><span class="s1"> 
+        } 
+ 
+        </span><span class="s2">try</span><span class="s1"> 
+        { 
+            </span><span class="s0">//the file containing the thesaurus information</span><span class="s1"> 
+            File inputFile = </span><span class="s2">new </span><span class="s1">File(args[</span><span class="s3">0</span><span class="s1">]); 
+            </span><span class="s0">//Scanner of the input file, to be passed to the database</span><span class="s1"> 
+            Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(inputFile); 
+            </span><span class="s0">//thesaurus contains all of the data parsed from the test file</span><span class="s1"> 
+            Database thesaurus = </span><span class="s2">new </span><span class="s1">Database(inputScanner); 
+            </span><span class="s0">//makes my database</span><span class="s1"> 
+            </span><span class="s0">//sends the database a scanner so only main  deals with file io</span><span class="s1"> 
+            mainMenu(thesaurus);</span><span class="s0">//opens the main menu</span><span class="s1"> 
+        } 
+        </span><span class="s2">catch </span><span class="s1">(FileNotFoundException notFoundObject) 
+        { 
+            System.out.println(</span><span class="s4">&quot;Sorry, I could not find that file&quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Exiting now&quot;</span><span class="s1">); 
+            System.exit(</span><span class="s3">0</span><span class="s1">);</span><span class="s0">//terminates current virtual machine</span><span class="s1"> 
+        } 
+    } 
+ 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: mainMenu - user interface 
+    Purpose: Main menu, interacts with user and directs 
+                to other sub-menus 
+    Parameters: 
+        Database currentThesaurus   the database parsed from the text file 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">mainMenu(Database currentThesaurus) 
+    { 
+        </span><span class="s0">//menu command to search for a word</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">SEARCHFORWORD = </span><span class="s3">1</span><span class="s1">; 
+        </span><span class="s0">//menu command to search for a synonym</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">SEARCHFORSYNONYM = </span><span class="s3">2</span><span class="s1">; 
+        </span><span class="s0">//menu command to print the database</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">PRINTDATABASE = </span><span class="s3">3</span><span class="s1">; 
+        </span><span class="s0">//menu command to add a new word</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">ADDNEWWORD = </span><span class="s3">4</span><span class="s1">; 
+        </span><span class="s0">//menu command to add a new synonym</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">ADDNEWSYNONYM = </span><span class="s3">5</span><span class="s1">; 
+        </span><span class="s0">//menu command to remove an entry</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">REMOVEENTRY = </span><span class="s3">6</span><span class="s1">; 
+        </span><span class="s0">//menu command to remove an synonym</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">REMOVESYNONYM = </span><span class="s3">7</span><span class="s1">; 
+        </span><span class="s0">//menu command to end the program</span><span class="s1"> 
+        </span><span class="s2">final int </span><span class="s1">EXIT = </span><span class="s3">8</span><span class="s1">; 
+ 
+        System.out.println(</span><span class="s4">&quot;Welcome to CS-102 Project One: The Thesaurus&quot;</span><span class="s1">); 
+        System.out.println(</span><span class="s4">&quot;Written by Caspian Peavyhouse</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+ 
+        </span><span class="s0">//scanner to take user input</span><span class="s1"> 
+        Scanner input = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+ 
+        </span><span class="s0">//controls whether the menu will loop on completion</span><span class="s1"> 
+        </span><span class="s2">boolean </span><span class="s1">loopOn = </span><span class="s2">true</span><span class="s1">; 
+        </span><span class="s2">while</span><span class="s1">(loopOn)</span><span class="s0">//loop controlled by loopOn activation</span><span class="s1"> 
+        </span><span class="s0">//loops menu after failure or success</span><span class="s1"> 
+        { 
+            </span><span class="s2">try</span><span class="s1"> 
+            { 
+                </span><span class="s0">//standard menu</span><span class="s1"> 
+                System.out.println(</span><span class="s4">&quot;Available Commands:&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;1: Search for a word&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;2: Search for a synonym&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;3: Print the database&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;4: Add a new word to the thesaurus&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;5: Add a new synonym to a word&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;6: Remove a word from the thesaurus&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;7: Remove a synonym from a word&quot;</span><span class="s1">); 
+                System.out.println(</span><span class="s4">&quot;8: Exit&quot;</span><span class="s1">); 
+                System.out.print(</span><span class="s4">&quot;Option Number &gt;&gt; &quot;</span><span class="s1">); 
+ 
+                </span><span class="s2">int </span><span class="s1">selection = Integer.parseInt(input.nextLine()); 
+                </span><span class="s0">//</span><span class="s1"> 
+ 
+                </span><span class="s2">switch </span><span class="s1">(selection) 
+                { 
+                    </span><span class="s2">case </span><span class="s1">SEARCHFORWORD:</span><span class="s0">//Search for a word</span><span class="s1"> 
+                    { 
+                        wordSearchMenu(currentThesaurus); 
+                        </span><span class="s0">//calls the word search menu</span><span class="s1"> 
+                        </span><span class="s2">break</span><span class="s1">; 
+                    } 
+                    </span><span class="s2">case </span><span class="s1">SEARCHFORSYNONYM:</span><span class="s0">//Search for a synonym</span><span class="s1"> 
+                    { 
+                        synonymSearchMenu(currentThesaurus); 
+                        </span><span class="s0">//calls the synonym search menu</span><span class="s1"> 
+                        </span><span class="s2">break</span><span class="s1">; 
+                    } 
+                    </span><span class="s2">case </span><span class="s1">PRINTDATABASE:</span><span class="s0">//Print the database</span><span class="s1"> 
+                    { 
+                        System.out.println(currentThesaurus.toString()); 
+                        </span><span class="s0">//prints the database using databases toString</span><span class="s1"> 
+                        </span><span class="s2">break</span><span class="s1">; 
+                    } 
+                    </span><span class="s2">case </span><span class="s1">ADDNEWWORD:</span><span class="s0">//add a new entry</span><span class="s1"> 
+                    { 
+                        addNewEntry(currentThesaurus); 
+                        </span><span class="s0">//calls the method to add a new entry</span><span class="s1"> 
+                        </span><span class="s2">break</span><span class="s1">; 
+                    } 
+                    </span><span class="s2">case </span><span class="s1">ADDNEWSYNONYM:</span><span class="s0">//add a new synonym to an entry</span><span class="s1"> 
+                    { 
+                        addNewSynonymToEntry(currentThesaurus); 
+                        </span><span class="s0">//calls the method to add a new synonym</span><span class="s1"> 
+                        </span><span class="s2">break</span><span class="s1">; 
+                    } 
+                    </span><span class="s2">case </span><span class="s1">REMOVEENTRY: 
+                    { 
+                        removeEntry(currentThesaurus); 
+                        </span><span class="s0">//calls the method to remove an entry</span><span class="s1"> 
+                        </span><span class="s2">break</span><span class="s1">; 
+                    } 
+                    </span><span class="s2">case </span><span class="s1">REMOVESYNONYM:</span><span class="s0">//add a new synonym to an entry</span><span class="s1"> 
+                    { 
+                        removeSynonymFromEntry(currentThesaurus); 
+                        </span><span class="s0">//calls the method to remove a synonym</span><span class="s1"> 
+                        </span><span class="s2">break</span><span class="s1">; 
+                    } 
+                    </span><span class="s2">case </span><span class="s1">EXIT:</span><span class="s0">//Exit</span><span class="s1"> 
+                    { 
+                        System.out.println(</span><span class="s4">&quot;The program will exit now&quot;</span><span class="s1">); 
+                        System.exit(</span><span class="s3">0</span><span class="s1">); 
+                    } 
+                    </span><span class="s2">default</span><span class="s1">: 
+                    { 
+                        System.out.println(</span><span class="s4">&quot;Please enter a valid number for &quot; </span><span class="s1">+ 
+                                </span><span class="s4">&quot;the choice of your selection</span><span class="s2">\n\n</span><span class="s4">&quot;</span><span class="s1">); 
+                        </span><span class="s0">// will loop though till user gets correct input</span><span class="s1"> 
+                    } 
+                } 
+ 
+                </span><span class="s0">//typeCheck = true; //this line sets mode for either</span><span class="s1"> 
+                </span><span class="s0">//one run through or infinite run till user exits or breaks it</span><span class="s1"> 
+            } 
+            </span><span class="s2">catch </span><span class="s1">(NumberFormatException wrongTypeObject) 
+            { 
+                System.out.println(</span><span class="s4">&quot;Please enter a valid number for &quot; </span><span class="s1">+ 
+                        </span><span class="s4">&quot;the choice of your selection</span><span class="s2">\n\n</span><span class="s4">&quot;</span><span class="s1">); 
+                </span><span class="s0">//catches when the user input bad data</span><span class="s1"> 
+            } 
+        } 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: wordSearchMenu - user interface 
+    Purpose: word menu, interacts with user and calls database methods 
+                to search for user input, prints out search results 
+    Parameters: 
+        Database currentThesaurus   the database parsed from the text file 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">wordSearchMenu(Database currentThesaurus) 
+    { 
+        </span><span class="s0">//basic menu for simple text input</span><span class="s1"> 
+        </span><span class="s0">//should work for any normal circumstances</span><span class="s1"> 
+        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word to be searched for&quot;</span><span class="s1">); 
+        System.out.print(</span><span class="s4">&quot;&gt;&gt; &quot;</span><span class="s1">); 
+        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+        </span><span class="s0">//the word being searched for</span><span class="s1"> 
+        String userInput = inputScanner.nextLine(); 
+ 
+        </span><span class="s0">//searches the database for a word</span><span class="s1"> 
+ 
+        String returnString = currentThesaurus.searchForWord(userInput); 
+        </span><span class="s0">// the results of the search</span><span class="s1"> 
+        System.out.println(returnString + </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+ 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: synonymSearchMenu - user interface 
+    Purpose: word menu, interacts with user and calls database methods 
+                to search for user input, prints out search results 
+    Parameters: 
+        Database currentThesaurus   the database parsed from the text file 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">synonymSearchMenu(Database currentThesaurus) 
+    { 
+        </span><span class="s0">//basic menu for simple text input</span><span class="s1"> 
+        </span><span class="s0">//should work for any normal circumstances</span><span class="s1"> 
+        </span><span class="s0">//because it stores user input into a string</span><span class="s1"> 
+        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the synonym to be searched for&quot;</span><span class="s1">); 
+        System.out.print(</span><span class="s4">&quot;&gt;&gt; &quot;</span><span class="s1">); 
+        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+        </span><span class="s0">//Synonym being searched for</span><span class="s1"> 
+        String userInput = inputScanner.nextLine(); 
+ 
+        </span><span class="s0">//searches each entry for a matching synonym</span><span class="s1"> 
+        String returnString = currentThesaurus.searchForSynonym(userInput); 
+        </span><span class="s0">//the results of the search</span><span class="s1"> 
+        System.out.println(returnString + </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: addNewEntry - user interface 
+    Purpose: word menu, interacts with user and calls database methods 
+                to add new entries, prints out results 
+    Parameters: 
+        Database currentThesaurus   the database parsed from the text file 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">addNewEntry(Database currentThesaurus) 
+    { 
+        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word you would like to add&quot;</span><span class="s1">); 
+        System.out.print(</span><span class="s4">&quot;&gt;&gt;&quot;</span><span class="s1">); 
+        </span><span class="s0">//Will accept spaces in words</span><span class="s1"> 
+        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+        </span><span class="s0">//the wood the user wants to add</span><span class="s1"> 
+        String newUserWord = inputScanner.nextLine(); 
+ 
+        </span><span class="s0">//checks whether the word was added successfully</span><span class="s1"> 
+        </span><span class="s2">boolean </span><span class="s1">successCheck = currentThesaurus.addEntryFromMenu(newUserWord); 
+        </span><span class="s2">if </span><span class="s1">(successCheck == </span><span class="s2">true</span><span class="s1">) 
+        { 
+            System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot; </span><span class="s1">+newUserWord + </span><span class="s4">&quot; has been &quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;added to the thesaurus&quot;</span><span class="s1">); 
+            System.out.println(</span><span class="s4">&quot;Would you like to add a synonym for it?&quot;</span><span class="s1">); 
+            System.out.print(</span><span class="s4">&quot;type (yes/no) &gt;&gt;&quot;</span><span class="s1">); 
+            </span><span class="s0">//does the user want to add a synonym</span><span class="s1"> 
+            String userResponse = inputScanner.next(); 
+            </span><span class="s2">if </span><span class="s1">(userResponse.equalsIgnoreCase(</span><span class="s4">&quot;yes&quot;</span><span class="s1">)) 
+            { 
+                </span><span class="s0">//calls the same method that addNewSynonym calls</span><span class="s1"> 
+                currentThesaurus.addSynonymFromMenu(newUserWord); 
+            } 
+            </span><span class="s2">else</span><span class="s1"> 
+            { 
+                System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Going back to the main menu&quot;</span><span class="s1">); 
+            } 
+        } 
+        </span><span class="s2">else</span><span class="s1"> 
+        { 
+            System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Sorry, that word is already in the thesaurus</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+            System.out.println(</span><span class="s4">&quot;Going back to the main menu&quot;</span><span class="s1">); 
+            </span><span class="s0">//returns to the main menu</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: addNewSynonym - basic user interface 
+    Purpose: word menu, interacts with user and calls database methods 
+                to add new synonyms 
+                real work is done in database 
+    Parameters: 
+        Database currentThesaurus   the database parsed from the text file 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">addNewSynonymToEntry(Database currentThesaurus) 
+    { 
+        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word you would like to update&quot;</span><span class="s1">); 
+        System.out.print(</span><span class="s4">&quot;&gt;&gt;&quot;</span><span class="s1">); 
+        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+        </span><span class="s0">//What word does the user want to update?</span><span class="s1"> 
+        String word = inputScanner.nextLine(); 
+ 
+        </span><span class="s0">//calls the method where the real work is done</span><span class="s1"> 
+        currentThesaurus.addSynonymFromMenu(word); 
+        </span><span class="s0">//written that way so code is usable by addNewEntry</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: removeEntry  - basic user interface 
+    Purpose: word menu, interacts with user and calls database methods 
+                to remove entries 
+                real work is done in database 
+    Parameters: 
+        Database currentThesaurus   the database parsed from the text file 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">removeEntry(Database currentThesaurus) 
+    { 
+        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word you would like to remove&quot;</span><span class="s1">); 
+        System.out.print(</span><span class="s4">&quot;&gt;&gt;&quot;</span><span class="s1">); 
+        </span><span class="s0">//Will accept spaces in words</span><span class="s1"> 
+        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+        </span><span class="s0">//the wood the user wants to add</span><span class="s1"> 
+        String newUserWord = inputScanner.nextLine(); 
+ 
+        </span><span class="s0">//checks whether the word was added successfully</span><span class="s1"> 
+        </span><span class="s2">boolean </span><span class="s1">successCheck = currentThesaurus.removeEntryFromMenu(newUserWord); 
+        </span><span class="s2">if </span><span class="s1">(successCheck) 
+        { 
+            System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">&quot; </span><span class="s1">+newUserWord + </span><span class="s4">&quot; has been &quot; </span><span class="s1">+ 
+                    </span><span class="s4">&quot;removed from the thesaurus&quot;</span><span class="s1">); 
+            System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Going back to the main menu&quot;</span><span class="s1">); 
+        } 
+        </span><span class="s2">else</span><span class="s1"> 
+        { 
+            System.out.println(</span><span class="s4">&quot;Going back to the main menu&quot;</span><span class="s1">); 
+            </span><span class="s0">//returns to the main menu</span><span class="s1"> 
+        } 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: removeSynonymFromEntry  - basic user interface 
+    Purpose: word menu, interacts with user and calls database methods 
+                to remove synonyms 
+                real work is done in database 
+    Parameters: 
+        Database currentThesaurus   the database parsed from the text file 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public static void </span><span class="s1">removeSynonymFromEntry(Database currentThesaurus) 
+    { 
+        System.out.println(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Please type the word you would like to update&quot;</span><span class="s1">); 
+        System.out.print(</span><span class="s4">&quot;&gt;&gt;&quot;</span><span class="s1">); 
+        </span><span class="s0">//Scanner to take user input</span><span class="s1"> 
+        Scanner inputScanner = </span><span class="s2">new </span><span class="s1">Scanner(System.in); 
+        </span><span class="s0">//WHat word does the user want to update?</span><span class="s1"> 
+        String word = inputScanner.nextLine(); 
+ 
+        </span><span class="s0">//calls the method where the real work is done</span><span class="s1"> 
+        currentThesaurus.removeSynonymFromMenu(word); 
+    } 
+ 
+} 
+ 
+ 
+</span></pre>
+</body>
+</html>

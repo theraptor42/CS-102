@@ -1,0 +1,272 @@
+<html>
+<head>
+<title>Entry.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(128,128,128); font-style: italic; }
+.s1 { }
+.s2 { color: rgb(0,0,128); font-weight: bold; }
+.s3 { color: rgb(0,0,255); }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Entry.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">/* 
+    * Caspian Peavyhouse - peav2414@kettering.edu 
+    * CS-102, Fall 2015 
+    * Programming Assignment 3 
+    * Entry Class - stores strings in a linked list 
+*/</span><span class="s1"> 
+</span><span class="s2">import </span><span class="s1">java.util.*; 
+</span><span class="s2">public class </span><span class="s1">Entry 
+{ 
+    </span><span class="s2">private </span><span class="s1">LinkedList&lt;String&gt; wordList; 
+ 
+    </span><span class="s0">/* 
+    Method: Entry - Constructor 
+    Purpose: make a blank Entry Object 
+    Parameters: 
+        none 
+    Returns: 
+        Entry - the entry object I made 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">Entry() 
+    { 
+        </span><span class="s0">//not null because null evul</span><span class="s1"> 
+        </span><span class="s0">//(for my methods)</span><span class="s1"> 
+        wordList = </span><span class="s2">new </span><span class="s1">LinkedList&lt;String&gt;(); 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: getWord - getter 
+    Purpose: returns the &quot;word&quot; object at position 0 
+    Parameters: 
+        none 
+    Returns: 
+        String - the word 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">String getWord() 
+    { 
+        </span><span class="s2">if </span><span class="s1">(wordList == </span><span class="s2">null </span><span class="s1">|| wordList.size() == </span><span class="s3">0</span><span class="s1">) 
+        { 
+            </span><span class="s0">//if there is no word, the program is broken</span><span class="s1"> 
+            </span><span class="s2">throw new </span><span class="s1">IndexOutOfBoundsException(); 
+        } 
+        </span><span class="s2">return </span><span class="s1">wordList.getFirst(); 
+        </span><span class="s0">//wordlist.get(0);</span><span class="s1"> 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: setWord - setter 
+    Purpose: sets the &quot;word&quot; at position 0 
+    Parameters: 
+        String word - the new word 
+    Returns: 
+        none 
+    */</span><span class="s1"> 
+    </span><span class="s2">public void </span><span class="s1">setWord(String word) 
+    { 
+        </span><span class="s0">//setting the word will clear out any garbage</span><span class="s1"> 
+        wordList = </span><span class="s2">new </span><span class="s1">LinkedList&lt;String&gt;(); 
+        wordList.add(word); 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: addSynonymInOrder 
+    Purpose: adds a word to the list of synonyms 
+    Parameters: 
+        String newSynonym - the synonym I want to add 
+    Returns: 
+        boolean - did I add it? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">addSynonymInOrder(String newSynonym) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(wordList.size() == </span><span class="s3">1</span><span class="s1">) 
+        { 
+            </span><span class="s0">// if its just the word, add the synonym to the end</span><span class="s1"> 
+            wordList.add(newSynonym); 
+            </span><span class="s2">return true</span><span class="s1">; 
+        } 
+        </span><span class="s0">//current position in the linked list</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">index = </span><span class="s3">1</span><span class="s1">; 
+        </span><span class="s0">//current string in the linkedList</span><span class="s1"> 
+        String current; 
+        </span><span class="s0">//last synonym in the linked list</span><span class="s1"> 
+        String last = getLastSynonym(); 
+        </span><span class="s0">//if it goes after the last synonym, just add it there</span><span class="s1"> 
+        </span><span class="s2">if </span><span class="s1">(newSynonym.compareToIgnoreCase(last) &gt; </span><span class="s3">0</span><span class="s1">) 
+        { 
+            </span><span class="s0">//added to eliminate the longest</span><span class="s1"> 
+            </span><span class="s0">//add operation</span><span class="s1"> 
+            wordList.addLast(newSynonym); 
+            </span><span class="s2">return true</span><span class="s1">; 
+        } 
+        </span><span class="s2">while </span><span class="s1">(index &lt; wordList.size()) 
+        { 
+            current = wordList.get(index); 
+            </span><span class="s2">if </span><span class="s1">(newSynonym.compareToIgnoreCase(current) &lt; </span><span class="s3">0</span><span class="s1">) 
+            { 
+                </span><span class="s0">//insert it into the list</span><span class="s1"> 
+                wordList.add(index, newSynonym); 
+                </span><span class="s2">return true</span><span class="s1">; 
+            } 
+            </span><span class="s2">if </span><span class="s1">(newSynonym.compareToIgnoreCase(current) == </span><span class="s3">0</span><span class="s1">) 
+            { 
+                </span><span class="s0">//the synonym is already in the list</span><span class="s1"> 
+                </span><span class="s2">return false</span><span class="s1">; 
+            } 
+ 
+            index++; 
+        } 
+ 
+        </span><span class="s0">//because it won't compile without a return here</span><span class="s1"> 
+        </span><span class="s0">//though it should never be reached</span><span class="s1"> 
+        </span><span class="s0">//because the last is checked first</span><span class="s1"> 
+        System.out.println(</span><span class="s4">&quot;You reached an non-accessible point: 1</span><span class="s2">\n</span><span class="s4">&quot;</span><span class="s1">); 
+        wordList.addLast(newSynonym); 
+        </span><span class="s2">return true</span><span class="s1">; 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: getLastSynonym 
+    Purpose: gets the last synonym in the list 
+    Parameters: 
+        none 
+    Returns: 
+        String - the last synonym 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">String getLastSynonym() 
+    { 
+        </span><span class="s2">if </span><span class="s1">(wordList == </span><span class="s2">null </span><span class="s1">|| wordList.size() &lt;= </span><span class="s3">1</span><span class="s1">) 
+        { 
+            </span><span class="s0">//return null if there are no synonyms</span><span class="s1"> 
+            </span><span class="s2">return null</span><span class="s1">; 
+        } 
+        </span><span class="s2">return </span><span class="s1">wordList.getLast(); 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: hasSynonym 
+    Purpose: checks to see if the synonym is in the list 
+    Parameters: 
+        String synSearched - the synonym being searched for 
+    Returns: 
+        boolean - did I find it? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">hasSynonym(String synSearched) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(wordList == </span><span class="s2">null </span><span class="s1">|| wordList.isEmpty() || wordList.size() == </span><span class="s3">1</span><span class="s1">) 
+        { 
+            </span><span class="s0">//no synonyms</span><span class="s1"> 
+            </span><span class="s2">return false</span><span class="s1">; 
+        } 
+        </span><span class="s0">//current position in list</span><span class="s1"> 
+        </span><span class="s2">int </span><span class="s1">index = </span><span class="s3">1</span><span class="s1">; 
+        String current; 
+ 
+        </span><span class="s2">while </span><span class="s1">(index &lt; wordList.size()) 
+        { 
+            current = wordList.get(index); 
+            </span><span class="s2">if </span><span class="s1">(current.equalsIgnoreCase(synSearched)) 
+            { 
+                </span><span class="s0">//yayy I found the synonym</span><span class="s1"> 
+                </span><span class="s2">return true</span><span class="s1">; 
+            } 
+            index++; 
+        } 
+        </span><span class="s0">//boo I didn't find it</span><span class="s1"> 
+        </span><span class="s2">return false</span><span class="s1">; 
+    } 
+ 
+ 
+    </span><span class="s0">/* 
+    Method: hasSynonym 
+    Purpose: removes a synonym from the list 
+    Parameters: 
+        String remove me - the synonym being removed 
+    Returns: 
+        boolean - did I remove it? 
+    */</span><span class="s1"> 
+    </span><span class="s2">public boolean </span><span class="s1">removeSynonym(String removeMe) 
+    { 
+        </span><span class="s2">if </span><span class="s1">(</span><span class="s2">this</span><span class="s1">.hasSynonym(removeMe)) 
+        { 
+            </span><span class="s0">//current position in the list</span><span class="s1"> 
+            </span><span class="s2">int </span><span class="s1">index = </span><span class="s3">1</span><span class="s1">; 
+            </span><span class="s0">//current string in the list</span><span class="s1"> 
+            String current; 
+            </span><span class="s2">while </span><span class="s1">(index &lt; wordList.size()) 
+            { 
+                current = wordList.get(index); 
+                </span><span class="s2">if </span><span class="s1">(current.equalsIgnoreCase(removeMe)) 
+                { 
+                    </span><span class="s0">//when I find it, remove it</span><span class="s1"> 
+                    wordList.remove(index); 
+                    </span><span class="s2">return true</span><span class="s1">; 
+                } 
+                index ++; 
+            } 
+        } 
+        </span><span class="s2">return false</span><span class="s1">; 
+    } 
+ 
+    </span><span class="s0">/* 
+    Method: toString 
+    Purpose: sends the entry to a string 
+    Parameters: 
+        none 
+    Returns: 
+        String - the relevant data 
+    */</span><span class="s1"> 
+    </span><span class="s2">public </span><span class="s1">String toString() 
+    { 
+        </span><span class="s0">//add the word</span><span class="s1"> 
+        String returnString = </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Word: &quot;</span><span class="s1">; 
+        returnString += getWord(); 
+        </span><span class="s0">//add the synonym</span><span class="s1"> 
+        returnString += </span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Synonyms: &quot;</span><span class="s1">; 
+        </span><span class="s2">if </span><span class="s1">(wordList.size() == </span><span class="s3">1</span><span class="s1">) 
+        { 
+            </span><span class="s0">//if there's only one word, its the word</span><span class="s1"> 
+            returnString += </span><span class="s4">&quot;No synonyms found&quot;</span><span class="s1">; 
+        } 
+        </span><span class="s2">else</span><span class="s1"> 
+        { 
+            </span><span class="s0">//start at the first synonym</span><span class="s1"> 
+            </span><span class="s2">int </span><span class="s1">index = </span><span class="s3">1</span><span class="s1">; 
+            </span><span class="s0">//will have at least one synonym if it reaches here</span><span class="s1"> 
+            String current = wordList.get(index); 
+            </span><span class="s0">//done before the loop for formatting with the comma</span><span class="s1"> 
+            returnString += current; 
+            index++; 
+ 
+            </span><span class="s2">while </span><span class="s1">(index &lt; wordList.size()) 
+            { 
+                </span><span class="s0">//add each synonym</span><span class="s1"> 
+                current = wordList.get(index); 
+                returnString += </span><span class="s4">&quot;, &quot; </span><span class="s1">+ current; 
+ 
+                index++; 
+            } 
+        } 
+ 
+        </span><span class="s2">return </span><span class="s1">returnString; 
+    } 
+} 
+ 
+ 
+</span></pre>
+</body>
+</html>
