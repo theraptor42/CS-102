@@ -1,0 +1,24 @@
+
+Binary Search Trees - cont'd
+Written in Previous Notes
+ -public void delete(Type target) //normal and recursive
+ 
+Traversal
+	-Every binary tree does three tasks in some order:
+		-(n)visit root
+		-(l)Traverse the root's left subtree
+		-(r)Traverse the root's right subree
+	-order
+		-NLR - Pre-order 
+			--Prints the list in the order that will maintain the data structure
+		-LNR - In-order 
+			--Prints the list in order
+		-LRN - Post-order
+			--Prints in reverse polish notation (for people who like that)
+		-*** - (based on when I visit root)
+		
+Indexing Binary Search Trees
+	*Starts at 1
+	Node at position n
+	left at position 2n
+	right at position 2n+1
