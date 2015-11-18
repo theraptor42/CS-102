@@ -1,7 +1,7 @@
 /*
     Caspian Peavyhouse - peav2414@kettering.edu
     CS-102, Fall 2015
-    Programming Assignment 3
+    Programming Assignment 4
     Prog 3 Class: Contains main, acts as a thesaurus user interface
 */
 import java.util.*;
