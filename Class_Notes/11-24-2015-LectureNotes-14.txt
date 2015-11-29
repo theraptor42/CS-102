@@ -1,0 +1,126 @@
+Analysis of Algorithms
+
+Question: How long does an algorithm take to run?
+	-depends on time
+		-Why not use a clock?
+			Because different computers run at different speed
+			Because differet loads
+			Because different input
+	Answer: Express time as a function: input size --> Number of instructions
+	
+Examples:
+	Selection Sort
+		public void selectionSort(int [] data, int start, int end)
+		{
+			int pass;
+			for (pass = start; pass < end; pass++)
+			{
+				int minPos = pass;
+				for ( int comp = pass + 1; comp <= end; comp++)
+				{
+					if (data[comp] < data[minPos])
+					{
+						minPos = comp;
+					}
+				}
+				int swap = data[minPos];
+				data[minPos] = data[pass];
+				data[pass] = swap;
+			}
+		}
+
+		(takes 2n^2 + 6n -6 instructions at worst case)
+
+	Def. Some complicated mumbo jumbo - the highest order really only matters if for a*n^(b)+ c*n^(b-1), n >= c
+	
+	
+	Binary Search - log_(2) *n operations
+	
+	
+Priority Queues
+	-A weighted queue - the order of the queue is based on priority not time
+	
+	Implementations:
+								Add					Remove
+								
+		Sorted Lists			Order(n) times		Order(1) time
+		
+		Unsorted Lists			Order(1) times		Order(n) times
+		
+		*Both are equally bad
+		
+Heap 
+	Def: A heap is a binary tree which satisfies two properties:
+		1. Complete: every level of the tree is filled excepting the last, which is filled left to right
+		2. Every node holds a value greater than both its children
+		
+	class Heap 
+	{
+		int [] data;
+		int last;
+		final in STARTSIZE = 42;
+		public heap()
+		{
+			data = new int[STARTSIZE];
+			last = 0;
+		}
+		
+		public void add(int target)
+		{
+			data[++last] = target;
+			int current = last;
+			while (current > 1)
+			{
+				if (data[current] > data[current/2])
+				{
+					int swap = data[current];
+					data[current] = data[current/2];
+					data[current/2] = swap;
+					current = current/2;
+				}
+				else
+				{
+					return;
+				}
+			}
+		}//loop is of Order (log_2 n) operations
+		
+		public int remove()
+		{
+			int toSender = data[1];//heap is an implementation of priority queue
+			data[1] = data[last--];
+			int current = 1;
+			while(current * 2 < = last)
+			{
+				int largerChild = current*2;
+				if ((largerChild + 1 <=last) && (data[largerChild] < data[largerChild + 1]))
+				{
+					largerChild++;
+				}
+				if (data[current] > data[largerChild])
+				{
+					break;
+				}
+				int swap = data[current];
+				data[current] = data[largerChild];
+				data[largerChild] = swap;
+				current = largerChild;
+			}
+			
+			return toSender;
+		}//Order (log_2 n) operations
+	}
+	
+	//if you were doing minimum is prioroty, multiply all values going in and out by negative 1
+	
+	Heap Sort
+		1. Add all n items to a heap
+		2. Remove all n items from 
+		
+	*items are now in sorted order
+		
+		all items
+		
+		
+	
+	

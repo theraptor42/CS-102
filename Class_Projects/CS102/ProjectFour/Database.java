@@ -42,48 +42,7 @@ public class Database
         }
     }
 
-    /*
-    Method: parseInputLine - text parser
-    Purpose: parse the line of text and return an entry object
-    Parameters:
-        String line   the line of text being parsed
-    Returns:
-        Entry - the Object parsed from the text line
-    */
-    private Entry parseInputLine(String line)
-    {
-        if (line.equals(""))
-        {
-            //returns a null object if the line is empty
-            //only null entry source in code
-            return null;
-        }
 
-        //a new empty Entry object
-        Entry returnEntry = new Entry();
-        //Scanner to scan the line of text
-        Scanner lineScanner = new Scanner(line);
-        lineScanner.useDelimiter("/");
-
-        //sets the entry's word
-        returnEntry.setWord(lineScanner.next());
-
-        while (lineScanner.hasNext())
-        {
-            //the next word in the line
-            String nextWord = lineScanner.next();
-            //end of line and 'a//b/c' blank words
-            if (!(nextWord == null) && !(nextWord.equals("")))
-            {
-                //adds each word in alphabet order to the
-                //synonym linkedList
-                returnEntry.addSynonymInOrder(nextWord);
-                //might not have any synonyms
-            }
-        }
-        //returns the finished entry object
-        return returnEntry;
-    }
 
     /*
     Method: isEmpty

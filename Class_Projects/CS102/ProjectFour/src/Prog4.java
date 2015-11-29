@@ -2,7 +2,7 @@
     Caspian Peavyhouse - peav2414@kettering.edu
     CS-102, Fall 2015
     Programming Assignment 4
-    Prog 3 Class: Contains main, acts as a thesaurus user interface
+    Prog 4 Class: Contains main, acts as a thesaurus user interface
 */
 import java.util.*;
 import java.io.*;
@@ -76,8 +76,12 @@ public class Prog4
         final int REMOVEENTRY = 6;
         //menu command to remove an synonym
         final int REMOVESYNONYM = 7;
+        //menu command to write the database to a file
+        final int WRITETOFILE = 8;
+        //menu command to load the database from a file
+        final int LOADFROMFILE = 9;
         //menu command to end the program
-        final int EXIT = 8;
+        final int EXIT = 10;
 
         System.out.println("Welcome to CS-102 Project One: The Thesaurus");
         System.out.println("Written by Caspian Peavyhouse\n");
@@ -98,10 +102,12 @@ public class Prog4
                 System.out.println("2: Search for a synonym");
                 System.out.println("3: Print the database");
                 System.out.println("4: Add a new word to the thesaurus");
-                System.out.println("5: Add a new synonym to a word");
+                System.out.println("5: Add a new synonym to an entry");
                 System.out.println("6: Remove a word from the thesaurus");
-                System.out.println("7: Remove a synonym from a word");
-                System.out.println("8: Exit");
+                System.out.println("7: Remove a synonym from an entry");
+                System.out.println("8: Write thesaurus to file");
+                System.out.println("9: Reload thesuarus from file");
+                System.out.println("10: Exit");
                 System.out.print("Option Number >> ");
 
                 int selection = Integer.parseInt(input.nextLine());
@@ -148,6 +154,18 @@ public class Prog4
                     case REMOVESYNONYM://add a new synonym to an entry
                     {
                         removeSynonymFromEntry(currentThesaurus);
+                        //calls the method to remove a synonym
+                        break;
+                    }
+                    case WRITETOFILE://add a new synonym to an entry
+                    {
+                        writeThesaurusToFile(currentThesaurus);
+                        //calls the method to remove a synonym
+                        break;
+                    }
+                    case LOADFROMFILE://add a new synonym to an entry
+                    {
+                        currentThesaurus = loadThesaurusFromFile(currentThesaurus);
                         //calls the method to remove a synonym
                         break;
                     }
@@ -359,6 +377,66 @@ public class Prog4
 
         //calls the method where the real work is done
         currentThesaurus.removeSynonymFromMenu(word);
+    }
+
+    /*
+    Method: writeThesurusToFile  - basic user interface
+    Purpose: writes the thesaurus to a file
+    Parameters:
+        Database currentThesaurus   the database parsed from the text file
+    Returns:
+        none
+    */
+    public static void writeThesaurusToFile(Database currentThesaurus)
+    {
+        File outputFile = new File("output.txt");
+        try
+        {
+            FileWriter fileWriter= new FileWriter(outputFile);
+            currentThesaurus.writeToFile(fileWriter, currentThesaurus.getEntryRoot());
+            fileWriter.close();
+            System.out.println("The thesaurus has been written to 'output.txt'\r\n");
+        }
+        catch(IOException exception)
+        {
+            System.out.println("There was an error in the file writing");
+        }
+    }
+
+    /*
+    Method: loadThesaurusFromFile
+    Purpose: reinitializes the database from a new file
+    Parameters:
+        Database original - the original database
+    Returns:
+        Database - the new Database
+    */
+    public static Database loadThesaurusFromFile(Database origial)
+    {
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("\r\nWhat file would you like to load?");
+        System.out.print(">>");
+        String response = userInput.nextLine();
+
+        try
+        {
+            //the file containing the thesaurus information
+            File inputFile = new File(response);
+            //Scanner of the input file, to be passed to the database
+            Scanner inputScanner = new Scanner(inputFile);
+            //thesaurus contains all of the data parsed from the test file
+            Database newThesaurus = new Database(inputScanner);
+            //makes my database
+            //sends the database a scanner so only main  deals with file io
+            System.out.println("\nThe new database has been loaded\n");
+            return newThesaurus;
+        }
+        catch (FileNotFoundException notFoundObject)
+        {
+            System.out.println("Sorry, I could not find that file" +
+                    "\nGoing back to the main menu");
+            return origial;
+        }
     }
 
 }
