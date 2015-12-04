@@ -1,0 +1,33 @@
+
+
+Bubble Sort - Do Not Use This
+
+public void bubbleSort(int [] data, int start, int end)
+{
+	for ( int pass = end, pass > start, pass--)
+	{
+		for (int pos = start, pos < pass, pos++)
+		{
+			if (data[pos] > data[pos+1])
+			{
+				int swap = data[pos];
+				data[pos] = data[pos+1];
+				data[pos+1] = swap;
+			}
+		}
+	}
+}
+
+Runs at order (n^2)
+
+Remark
+	Any comparison based sorting algorithm requires at least order (n*log_2 n) time to run
+
+Linear Time Sorting - Gains time by using more space for fewer passes
+	Radix Sort
+		-Sort each int by digit from right to left
+		-requires many bins
+		
+	Bin Sort
+		-requires one large bin
+	
