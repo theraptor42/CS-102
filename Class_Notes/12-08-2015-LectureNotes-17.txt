@@ -1,0 +1,15 @@
+
+
+Hash Tables
+	Open hashing
+		-each cell is a header of linked list of all keys hashed to it
+		
+	Closed hashing
+		-one key per cell
+		-in case of collision, finds another cell by
+			-linear probing: use next free bucket
+			-double hashing: use second hash function to compute increment
+
+Birthday Paradox
+	-Nobody understands how probability works
+	

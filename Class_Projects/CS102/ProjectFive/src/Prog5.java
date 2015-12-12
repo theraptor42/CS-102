@@ -82,10 +82,20 @@ public class Prog5
         displayArea.setVisible(true);
         displayArea.setForeground(Color.GREEN);
 
-        JLabel displayValue = new JLabel("I made a thing!");
+        String lableString = "";
+        for (int i=0; i< 40;i++)
+        {
+            lableString+="I made a thing!\r\nLookAtMyThingaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\r\n";
+        }
+        JTextArea displayValue = new JTextArea(lableString);
         displayValue.setBackground(Color.cyan);
         displayValue.setOpaque(true);
         displayValue.setVisible(true);
+
+        JTextArea displayValue2 = new JTextArea(lableString);
+        displayValue2.setBackground(Color.red);
+        displayValue2.setOpaque(true);
+        displayValue2.setVisible(true);
 
 
         Container myGUIFrameContents = myGUIFrame.getContentPane();
@@ -95,6 +105,16 @@ public class Prog5
 
         displayArea.setLayout(new FlowLayout());
         displayArea.add(displayValue);
+        displayArea.revalidate();
+        displayArea.repaint();
+
+/*
+        menuArea.setLayout(new FlowLayout());
+        menuArea.add(displayValue2);
+        menuArea.revalidate();
+        menuArea.repaint();
+
+ */
 
 
     }
