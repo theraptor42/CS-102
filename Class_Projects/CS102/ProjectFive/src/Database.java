@@ -369,7 +369,7 @@ public class Database
         else
         {
             //removeEntry failed
-            System.out.println("I could not find an entry: " + removeMe + "\n");
+            //System.out.println("I could not find an entry: " + removeMe + "\n");
             return false;
         }
     }
@@ -532,7 +532,7 @@ public class Database
         }
         catch(IOException exception)
         {
-            System.out.println("An error occurred in the file writing");
+            //System.out.println("An error occurred in the file writing");
         }
 
 

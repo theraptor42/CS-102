@@ -6,17 +6,20 @@ import java.awt.event.ActionListener;
 /**
  * Created by Caspian on 12/13/2015.
  */
-public class AddRemoveEntriesMenu
+
+public class AddRemoveSynonymsMenu
 {
     JFrame myGUIFrame;
     Database currentThesaurus;
     Container mainMenuContents;
-    boolean addingNewEntry = true;
-    JTextField searchBar;
+    boolean addingNewSynonym = true;
+    JTextField searchEntryBar;
+    JTextField searchSynonymBar;
+    JLabel searchSynonymBarInstructions;
+    JButton searchSynonymBarButton;
     JTextArea resultsTextArea;
-    JLabel searchBarInstructions;
-    JButton searchBarButton;
-    public AddRemoveEntriesMenu(JFrame GUIFrame, Database currentThesaurus, Container mainMenuContents)
+
+    public AddRemoveSynonymsMenu(JFrame GUIFrame, Database currentThesaurus, Container mainMenuContents)
     {
         this.myGUIFrame = GUIFrame;
         this.currentThesaurus = currentThesaurus;
@@ -40,42 +43,53 @@ public class AddRemoveEntriesMenu
         returnToMainMenuButton.addActionListener(myButtonHandler);
         contents.add(returnToMainMenuButton);
 
+        //add the search entry bar so user can input what entry they want to change
+        contents.add(Box.createVerticalStrut(10));
+        JLabel searchEntryBarInstructions = new JLabel("What entry would you like to modify?");
+        contents.add(searchEntryBarInstructions);
+
+        searchEntryBar = new JTextField();
+        searchEntryBar.setMaximumSize(maxTextFieldDimension);
+        contents.add(searchEntryBar);
+        //don't need an action listener on this
+        //end search entry bar
+
+        //Adds radio buttons to my menu
         JLabel informationLabel = new JLabel("What would you like to do?");
         contents.add(informationLabel);
 
-        //Adds radio buttons to my menu
         ButtonGroup myRadioButtons = new ButtonGroup();
 
-        JRadioButton addNewEntryButton = new JRadioButton("Add a new entry");
-        addNewEntryButton.addActionListener(myButtonHandler);
-        myRadioButtons.add(addNewEntryButton);
-        //sets addNewEntryButton to be the preselected choice
-        addNewEntryButton.setSelected(true);
+        JRadioButton addNewSynonymButton = new JRadioButton("Add a new synonym");
+        addNewSynonymButton.addActionListener(myButtonHandler);
+        myRadioButtons.add(addNewSynonymButton);
+        //sets addNewSynonymButton to be the preselected choice
+        addNewSynonymButton.setSelected(true);
 
-        JRadioButton removeEntryButton = new JRadioButton("Remove an existing entry");
+        JRadioButton removeEntryButton = new JRadioButton("Remove an existing synonym");
         removeEntryButton.addActionListener(myButtonHandler);
         myRadioButtons.add(removeEntryButton);
 
 
-        contents.add(addNewEntryButton);
+        contents.add(addNewSynonymButton);
         contents.add(removeEntryButton);
         //end radio buttons
 
         //text search bar and search button
-        searchBarInstructions = new JLabel("What word would you like to add to the thesaurus");
-        searchBar = new JTextField();
-        searchBar.setMaximumSize(maxTextFieldDimension);
-        searchBar.addActionListener(mySearchBarHandler);
+        searchSynonymBarInstructions = new JLabel("What word would you like to add to the thesaurus");
+        searchSynonymBar = new JTextField();
+        searchSynonymBar.setMaximumSize(maxTextFieldDimension);
+        searchSynonymBar.addActionListener(mySearchBarHandler);
 
-        searchBarButton = new JButton("Add this");
-        searchBarButton.setMaximumSize(maxButtonDimension);
-        searchBarButton.addActionListener(mySearchBarHandler);
+        searchSynonymBarButton = new JButton("Add this");
+        searchSynonymBarButton.setMaximumSize(maxButtonDimension);
+        searchSynonymBarButton.addActionListener(mySearchBarHandler);
 
         //add spacing in my menu
         contents.add(Box.createVerticalStrut(10));
-        contents.add(searchBarInstructions);
-        contents.add(searchBar);
-        contents.add(searchBarButton);
+        contents.add(searchSynonymBarInstructions);
+        contents.add(searchSynonymBar);
+        contents.add(searchSynonymBarButton);
         //end search bar
 
         //search results area
@@ -98,7 +112,6 @@ public class AddRemoveEntriesMenu
         myGUIFrame.revalidate();
     }
 
-
     private class ButtonHandler implements ActionListener
     {
         public void actionPerformed(ActionEvent theAction)
@@ -115,22 +128,21 @@ public class AddRemoveEntriesMenu
                 myGUIFrame.setContentPane(borderedContents);
                 myGUIFrame.repaint();
                 myGUIFrame.revalidate();
-
             }
 
-            else if (theAction.getActionCommand().equals("Add a new entry"))
+            else if (theAction.getActionCommand().equals("Add a new synonym"))
             {
-                addingNewEntry = true;
-                searchBarInstructions.setText("What word would you like to add to the thesaurus");
-                searchBarButton.setText("Add this");
+                addingNewSynonym = true;
+                searchSynonymBarInstructions.setText("What synonym would you like to add to the entry");
+                searchSynonymBarButton.setText("Add this");
                 myGUIFrame.repaint();
                 myGUIFrame.revalidate();
             }
-            else if (theAction.getActionCommand().equals("Remove an existing entry"))
+            else if (theAction.getActionCommand().equals("Remove an existing synonym"))
             {
-                addingNewEntry = false;
-                searchBarInstructions.setText("What word would you like to remove from the thesaurus");
-                searchBarButton.setText("Remove this");
+                addingNewSynonym = false;
+                searchSynonymBarInstructions.setText("What synonym would you like to remove from the entry");
+                searchSynonymBarButton.setText("Remove this");
                 myGUIFrame.repaint();
                 myGUIFrame.revalidate();
             }
@@ -141,57 +153,81 @@ public class AddRemoveEntriesMenu
     {
         public void actionPerformed(ActionEvent theAction)
         {
-            String userInput = searchBar.getText();
-            if (userInput == null || userInput.equals(""))
+            String entryBarText = searchEntryBar.getText();
+            String synonymBarText = searchSynonymBar.getText();
+            String errorMessage= "";
+            TreeNode entryToModify = null;
+            if (entryBarText == null || entryBarText.equals(""))
             {
-                resultsTextArea.setText("I can't search for nothing");
+                errorMessage += "Please enter an entry to modify\r\n";
             }
-            if (addingNewEntry)
+            else if (!currentThesaurus.containsEntry(entryBarText))
             {
-                String confirmation = "Are you sure you want to add " + userInput + "?";
+                errorMessage += "That entry was not found in the thesaurus\r\n";
+            }
+            else
+            {
+                //only create this if the text is there and the entry exists
+                entryToModify = TreeNode.getNodeByString(entryBarText, currentThesaurus.getEntryRoot());
+            }
+            if (synonymBarText == null || synonymBarText.equals(""))
+            {
+                errorMessage += "Please enter a synonym to add/remove";
+            }
+
+            if (!errorMessage.equals(""))
+            {
+                JOptionPane.showMessageDialog(null, errorMessage);
+            }
+            //if it passes this point, it has an entry to modify
+            //and the syn search bar has text
+            else if (addingNewSynonym)
+            {
+
+                String confirmation = "Are you sure you want to add " + synonymBarText + "?";
                 String title = "Add this?";
                 int userResponse = JOptionPane.showConfirmDialog(null, confirmation, title, JOptionPane.YES_NO_OPTION);
                 if (userResponse == JOptionPane.YES_OPTION)
                 {
-                    boolean successful = currentThesaurus.addEntryFromMenu(userInput);
+                    //if this throw a null pointer exception, I did my iff block wrong
+                    boolean successful = entryToModify.addSynonymInOrder(synonymBarText);
                     String resultMessage = "";
                     if (successful)
                     {
-                        resultMessage = userInput + " was successfully added";
+                        resultMessage = synonymBarText + " was successfully added";
                     }
                     else
                     {
-                        resultMessage = userInput + " is already in the thesaurus";
+                        resultMessage = entryBarText + " already has that synonym";
                     }
                     JOptionPane.showMessageDialog(null, resultMessage);
                     resultsTextArea.setText(currentThesaurus.toString());
                 }
 
             }
-            else if (addingNewEntry == false)
+            else if (addingNewSynonym == false)
             {
-                String confirmation = "Are you sure you want to remove " + userInput + "?";
+                String confirmation = "Are you sure you want to remove " + synonymBarText + "?";
                 String title = "Remove this?";
                 int userResponse = JOptionPane.showConfirmDialog(null, confirmation, title, JOptionPane.YES_NO_OPTION);
                 if (userResponse == JOptionPane.YES_OPTION)
                 {
-                    boolean successful = currentThesaurus.removeEntryFromMenu(userInput);
+                    boolean successful = entryToModify.removeSynonym(synonymBarText);
                     String resultMessage = "";
                     if (successful)
                     {
-                        resultMessage = userInput + " was successfully removed";
+                        resultMessage = synonymBarText + " was successfully removed";
                     }
                     else
                     {
-                        resultMessage = userInput + " was not found in the thesaurus";
+                        resultMessage = entryBarText + " does not have that synonym";
                     }
                     JOptionPane.showMessageDialog(null, resultMessage);
                     resultsTextArea.setText(currentThesaurus.toString());
-
-
                 }
 
             }
         }
     }
 }
+

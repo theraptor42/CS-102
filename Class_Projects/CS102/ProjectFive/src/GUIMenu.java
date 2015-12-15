@@ -77,17 +77,10 @@ public class GUIMenu extends JFrame
 
         contents.add(Box.createVerticalStrut(/*invisible height of*/ 10));
         //send the database to a file
-        JButton databaseToFileButton = new JButton("Send Thesaurus to file");
-        databaseToFileButton.setMaximumSize(maxButtonDimension);
-        databaseToFileButton.addActionListener(myButtonHandler);
-        contents.add(databaseToFileButton);
-
-        contents.add(Box.createVerticalStrut(/*invisible height of*/ 10));
-        //load database from a file
-        JButton loadFromFileButton = new JButton("Load Thesaurus from file");
-        loadFromFileButton.setMaximumSize(maxButtonDimension);
-        loadFromFileButton.addActionListener(myButtonHandler);
-        contents.add(loadFromFileButton);
+        JButton databaseFileIOButton = new JButton("Load a thesaurus/Save this thesaurus");
+        databaseFileIOButton.setMaximumSize(maxButtonDimension);
+        databaseFileIOButton.addActionListener(myButtonHandler);
+        contents.add(databaseFileIOButton);
 
         contents.add(Box.createVerticalStrut(/*invisible height of*/ 10));
         //exit
@@ -138,18 +131,11 @@ public class GUIMenu extends JFrame
             }
             else if (theAction.getActionCommand().equals("Add/Remove synonym from the Thesaurus"))
             {
-                int normalExit = 0;
-                //System.exit(normalExit);
+                AddRemoveSynonymsMenu synonymMenu = new AddRemoveSynonymsMenu(myGUIFrame, currentThesaurus, contents);
             }
-            else if (theAction.getActionCommand().equals("Send Thesaurus to file"))
+            else if (theAction.getActionCommand().equals("Load a thesaurus/Save this thesaurus"))
             {
-                int normalExit = 0;
-                System.exit(normalExit);
-            }
-            else if (theAction.getActionCommand().equals("Load Thesaurus from file"))
-            {
-                int normalExit = 0;
-                System.exit(normalExit);
+                FileInputOutputMenu fileIOMenu = new FileInputOutputMenu(myGUIFrame, currentThesaurus, contents);
             }
             else if (theAction.getActionCommand().equals("Exit"))
             {

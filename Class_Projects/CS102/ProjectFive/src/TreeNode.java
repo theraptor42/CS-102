@@ -5,6 +5,8 @@
     TreeNode Class: Class that defines my custom binary search tree
 */
 
+import sun.reflect.generics.tree.Tree;
+
 import java.util.*;
 public class TreeNode
 {
@@ -261,6 +263,36 @@ public class TreeNode
             currentTree.setRightBranch(addTreeNodeInOrder(newLeaf, currentTree.getRightBranch()));
         }
         return currentTree;
+    }
+
+    /*
+    Method: removeSynonym
+    Purpose: non static method to remove a synonym node
+    Parameters:
+    String synToRemove - the string of what I want to remove
+    Returns:
+        boolean - did I do it?
+    */
+    public boolean removeSynonym(String synToRemove)
+    {
+        if (!this.isEntry())
+        {
+            //if its not an entry, there is no synonym tree
+            throw new NoSuchElementException();
+        }
+        if (synToRemove == null || synToRemove.equals(""))
+        {
+            return false;
+        }
+        if (this.containsSynonym(synToRemove))
+        {
+            TreeNode nodeToRemove = TreeNode.getNodeByString(synToRemove, this.getSynonymTree());
+            return TreeNode.removeTreeNode(nodeToRemove, this.getSynonymTree(), null);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /*
