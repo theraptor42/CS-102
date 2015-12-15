@@ -43,7 +43,7 @@ public class Prog5
             //makes my database
             //sends the database a scanner so only main  deals with file io
             //mainMenu(thesaurus);//opens the main menu
-            GUIMenu(thesaurus);
+            GUIMenu menu = new GUIMenu(thesaurus);
         }
         catch (FileNotFoundException notFoundObject)
         {
@@ -51,72 +51,6 @@ public class Prog5
                     "\nExiting now");
             System.exit(0);//terminates current virtual machine
         }
-    }
-
-    public static void GUIMenu(Database currentThesaurus)
-    {
-        String frameTitle = "Program 5: Thesaurus GUI";
-        int frameHeight = 600;
-        int frameWidth = 1000;
-        Dimension GUIFrameSize = new Dimension(frameWidth, frameHeight);
-        int menuHeight = 500;
-        int menuWidth = 300;
-        Dimension menuContainerSize = new Dimension(menuWidth, menuHeight);
-        int displayAreaHeight = 500;
-        int displayAreaWidth = 600;
-        Dimension displayAreaSize = new Dimension(displayAreaWidth, displayAreaHeight);
-
-        JFrame myGUIFrame = new JFrame(frameTitle);
-        myGUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myGUIFrame.setSize(GUIFrameSize);
-        myGUIFrame.setVisible(true);
-
-
-        Container menuArea = new Container();
-        menuArea.setSize(menuContainerSize);
-        menuArea.setVisible(true);
-        menuArea.setBackground(Color.blue);
-
-        Container displayArea = new Container();
-        displayArea.setSize(displayAreaSize);
-        displayArea.setVisible(true);
-        displayArea.setForeground(Color.GREEN);
-
-        String lableString = "";
-        for (int i=0; i< 40;i++)
-        {
-            lableString+="I made a thing!\r\nLookAtMyThingaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\r\n";
-        }
-        JTextArea displayValue = new JTextArea(lableString);
-        displayValue.setBackground(Color.cyan);
-        displayValue.setOpaque(true);
-        displayValue.setVisible(true);
-
-        JTextArea displayValue2 = new JTextArea(lableString);
-        displayValue2.setBackground(Color.red);
-        displayValue2.setOpaque(true);
-        displayValue2.setVisible(true);
-
-
-        Container myGUIFrameContents = myGUIFrame.getContentPane();
-        myGUIFrameContents.setLayout(new BorderLayout());
-        myGUIFrameContents.add(menuArea, BorderLayout.WEST);
-        myGUIFrameContents.add(displayArea, BorderLayout.EAST);
-
-        displayArea.setLayout(new FlowLayout());
-        displayArea.add(displayValue);
-        displayArea.revalidate();
-        displayArea.repaint();
-
-/*
-        menuArea.setLayout(new FlowLayout());
-        menuArea.add(displayValue2);
-        menuArea.revalidate();
-        menuArea.repaint();
-
- */
-
-
     }
 
 

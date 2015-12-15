@@ -346,15 +346,16 @@ public class Database
         //removeEntry is farther on down, just before the toString
         if (this.containsEntry(removeMe))
         {
-            System.out.println("Are you sure you want to remove the entry: " + removeMe +"?");
-            System.out.print("(Yes/No) >>");
+            //System.out.println("Are you sure you want to remove the entry: " + removeMe +"?");
+            //System.out.print("(Yes/No) >>");
             //Will accept spaces in words
             //Scanner to take user input
             Scanner inputScanner = new Scanner(System.in);
             //the wood the user wants to add
-            String userInput = inputScanner.nextLine();
+            //String userInput = inputScanner.nextLine();
 
-            if (userInput.equalsIgnoreCase("yes"))
+            //modified because prompt is now in window
+            if (true)
             {
                 TreeNode.removeTreeNode(TreeNode.getNodeByString(removeMe, entryRoot), entryRoot, null);
                 return true;
