@@ -1,7 +1,7 @@
 /*
     Caspian Peavyhouse - peav2414@kettering.edu
     CS-102, Fall 2015
-    Programming Assignment 4
+    Programming Assignment 5
     TreeNode Class: Class that defines my custom binary search tree
 */
 

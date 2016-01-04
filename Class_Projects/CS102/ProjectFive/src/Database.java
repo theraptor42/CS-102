@@ -1,7 +1,7 @@
 /*
  * Caspian Peavyhouse - peav2414@kettering.edu
  * CS-102, Fall 2015
- * Programming Assignment 4
+ * Programming Assignment 5
  * Database Class: Stores and searches mt binary search trees
  */
 
@@ -255,81 +255,6 @@ public class Database
             this.addEntryInOrder(newEntry);
             return true;
         }
-        //System.out.println("You broke logic");
-        //#unreachable
-    }
-
-    /*
-    Method: addSynonymFromMenu - database addition
-    Purpose: adds a synonym to an existing entry
-    Parameters:
-        String wordToAddTo      the word to update
-    Returns:
-        none - the results are printed here
-    */
-    public void addSynonymFromMenu(String wordToAddTo)
-    {
-        if (wordToAddTo.equals(""))
-        {
-            //if the word is empty go back to caller
-            System.out.println("\nPlease type a valid word\n");
-            return;
-        }
-
-        //checks whether the word is in the database and gets it
-        if (!this.containsEntry(wordToAddTo))
-        {
-            //if the word isn't there, go back to caller
-            System.out.println("Sorry, I could not find that word in the thesaurus\n");
-            return;
-        }
-        TreeNode entryToModify = TreeNode.getNodeByString(wordToAddTo, entryRoot);
-
-        //controls if the loop is repeated
-        boolean repeatCheck = true;
-        while(repeatCheck)
-        {
-            System.out.println("What synonym would you like " +
-                    "to add to the word: " + wordToAddTo);
-            System.out.print(">> ");
-            //Scanner to take user input
-            Scanner inputScanner = new Scanner(System.in);
-            //the synonym to be added
-            //will accept spaces in words
-            String userInput = inputScanner.nextLine();
-
-            if (userInput.equals(""))
-            {
-                System.out.println("Sorry, I can't add nothing\n");
-                //jump down to loop control
-            }
-            else
-            {
-                //checks to see if the entry already has that synonym
-
-                if (entryToModify.containsSynonym(userInput))
-                    System.out.println(wordToAddTo + " already has that synonym\n");
-                else
-                {
-                    //adds the synonym to the entry
-                    entryToModify.addSynonymInOrder(userInput);
-                    System.out.println(userInput + " was added to the entry\n");
-                }
-            }
-
-            //loop control menu
-            System.out.println("\nWould you like to add another synonym?");
-            System.out.print("type (yes/no) >>");
-            //does the user want to add another entry?
-            String userResponse = inputScanner.next();
-            if (userResponse.equalsIgnoreCase("yes"))
-            {}
-            else
-            {
-                System.out.println("\nGoing back to the main menu\n");
-                repeatCheck = false;
-            }
-        }
     }
 
 
@@ -371,99 +296,6 @@ public class Database
             //removeEntry failed
             //System.out.println("I could not find an entry: " + removeMe + "\n");
             return false;
-        }
-    }
-
-
-    /*
-    Method: removeSynonymFromMenu - database removal
-    Purpose: removes a synonym from an existing entry
-    Parameters:
-        String wordToRemove      the word to remove a synonym from
-    Returns:
-        none
-    */
-    public void removeSynonymFromMenu(String wordToRemoveFrom)
-    {
-        if (wordToRemoveFrom.equals(""))
-        {
-            //if the word is empty go back to caller
-            System.out.println("\nPlease type a valid word\n");
-            return;
-        }
-
-        //checks whether the word is in the database and gets it
-        if (!this.containsEntry(wordToRemoveFrom))
-        {
-            //if the word isn't there, go back to caller
-            System.out.println("Sorry, I could not find that word in the thesaurus\n");
-            return;
-        }
-        //if the entry exists, get the entry using its index
-        TreeNode removeFromThis = TreeNode.getNodeByString(wordToRemoveFrom, entryRoot);
-
-        //loop control, will loop till user does not say "yes" at end
-        boolean repeatCheck = true;
-        while(repeatCheck)
-        {
-            System.out.println("What synonym would you like " +
-                    "to remove from the word: " + wordToRemoveFrom);
-            System.out.print(">> ");
-            //Scanner to take user input
-            Scanner inputScanner = new Scanner(System.in);
-            //the synonym to be added
-            //will accept spaces in words
-            String removeMe = inputScanner.nextLine();
-
-            if (removeMe.equals("")) {
-                System.out.println("Sorry, I can't remove nothing\n");
-                //jump down to loop control
-            }
-            else
-            {
-
-                if (!removeFromThis.containsSynonym(removeMe))
-                {
-                    //if the word does not have the synonym skip down to loop control
-                    System.out.println(wordToRemoveFrom + "does not have that synonym\n");
-                }
-                else
-                {
-                    System.out.println("Are you sure you want to remove the Synonym: " + removeMe +"?");
-                    System.out.print("(Yes/No) >>");
-                    //Will accept spaces in words
-                    String userInput = inputScanner.nextLine();
-
-                    if (userInput.equalsIgnoreCase("yes"))
-                    {
-                       TreeNode nodeToRemove = TreeNode.getNodeByString(removeMe, removeFromThis.getSynonymTree());
-
-                        TreeNode.removeTreeNode(nodeToRemove,
-                                removeFromThis.getSynonymTree(), null);
-                        System.out.println(removeMe + " was successfully removed from the entry.");
-                        return;
-                    }
-                    else
-                    {
-                        //go back to the menu
-                        System.out.println("Going back to the main menu");
-                        return;
-                    }
-                }
-            }
-
-            //loop control menu
-            System.out.println("\nWould you like to remove another synonym?");
-            System.out.print("type (yes/no) >>");
-            //does the user want to add another entry?
-            String userResponse = inputScanner.next();
-            if (userResponse.equalsIgnoreCase("yes"))
-            {}
-            else
-            {
-                System.out.println("\nGoing back to the main menu\n");
-                repeatCheck = false;
-            }
         }
     }
 
